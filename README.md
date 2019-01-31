@@ -19,9 +19,6 @@ undefined
 > const c = Object.assign({}, b);
 {}
 
-> c;
-{}
-
 > c.b
 5
 ```
