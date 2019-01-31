@@ -23,7 +23,7 @@ undefined
 5
 ```
 
-The problem is that `JSON.parse()` retails the `__proto__` property as a plain object key. By
+The problem is that `JSON.parse()` retains the `__proto__` property as a plain object key. By
 itself, this is not a security issue. However, as soon as that object is assigned to another or
 iterated on and values copied, the `__proto__` property leaks and becomes the object's prototype.
 
