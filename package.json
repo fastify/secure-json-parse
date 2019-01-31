@@ -10,9 +10,9 @@
     "safe",
     "prototype"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "code": "5.x.x",
     "lab": "18.x.x"
   },
