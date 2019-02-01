@@ -72,6 +72,17 @@ describe('Bourne', () => {
             expect(Bourne.parse(text, { protoAction: 'remove' })).to.equal({ a: 5, b: 6, c: { d: 0, e: 'text', f: { g: 2 } } });
         });
 
+        it('ignores proto property', () => {
+
+            const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }';
+            expect(Bourne.parse(text, { protoAction: 'ignore' })).to.equal(JSON.parse(text));
+        });
+
+        it('ignores proto value', () => {
+
+            expect(Bourne.parse('{"a": 5, "b": "__proto__"}')).to.equal({ a: 5, b: '__proto__' });
+        });
+
         it('errors on proto property', () => {
 
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }')).to.throw(SyntaxError);
@@ -87,15 +98,11 @@ describe('Bourne', () => {
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }', { protoAction: 'error' })).to.throw(SyntaxError);
         });
 
-        it('ignores proto property', () => {
+        it('errors on proto property (unicode)', () => {
 
-            const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }';
-            expect(Bourne.parse(text, { protoAction: 'ignore' })).to.equal(JSON.parse(text));
-        });
-
-        it('ignores proto value', () => {
-
-            expect(Bourne.parse('{"a": 5, "b": "__proto__"}')).to.equal({ a: 5, b: '__proto__' });
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005f_proto__": { "x": 7 } }')).to.throw(SyntaxError);
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "_\\u005fp\\u0072oto__": { "x": 7 } }')).to.throw(SyntaxError);
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005f\\u005f\\u0070\\u0072\\u006f\\u0074\\u006f\\u005f\\u005f": { "x": 7 } }')).to.throw(SyntaxError);
         });
     });
 });
