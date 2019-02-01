@@ -105,4 +105,24 @@ describe('Bourne', () => {
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005f\\u005f\\u0070\\u0072\\u006f\\u0074\\u006f\\u005f\\u005f": { "x": 7 } }')).to.throw(SyntaxError);
         });
     });
+
+    describe('scan()', () => {
+
+        it('sanitizes nested object string', () => {
+
+            const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }';
+            const obj = JSON.parse(text);
+
+            Bourne.scan(obj, { protoAction: 'remove' });
+            expect(obj).to.equal({ a: 5, b: 6, c: { d: 0, e: 'text', f: { g: 2 } } });
+        });
+
+        it('errors on proto property', () => {
+
+            const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }';
+            const obj = JSON.parse(text);
+
+            expect(() => Bourne.scan(obj)).to.throw(SyntaxError);
+        });
+    });
 });
