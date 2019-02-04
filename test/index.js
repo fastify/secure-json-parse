@@ -86,6 +86,9 @@ describe('Bourne', () => {
         it('errors on proto property', () => {
 
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }')).to.throw(SyntaxError);
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__" : { "x": 7 } }')).to.throw(SyntaxError);
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__" \n\r\t : { "x": 7 } }')).to.throw(SyntaxError);
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "__proto__" \n \r \t : { "x": 7 } }')).to.throw(SyntaxError);
         });
 
         it('errors on proto property (null, null)', () => {
