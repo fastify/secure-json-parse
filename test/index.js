@@ -127,5 +127,14 @@ describe('Bourne', () => {
 
             expect(() => Bourne.scan(obj)).to.throw(SyntaxError);
         });
+
+        it('does not break when hasOwnProperty is overwritten', () => {
+
+            const text = '{ "a": 5, "b": 6, "hasOwnProperty": "text", "__proto__": { "x": 7 } }';
+            const obj = JSON.parse(text);
+
+            Bourne.scan(obj, { protoAction: 'remove' });
+            expect(obj).to.equal({ a: 5, b: 6, hasOwnProperty: 'text' });
+        });
     });
 });
