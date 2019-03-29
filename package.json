@@ -1,15 +1,10 @@
 {
-  "name": "bourne",
+  "name": "@hapi/bourne",
   "description": "JSON parse with prototype poisoning protection",
   "version": "1.1.2",
   "repository": "git://github.com/hapijs/bourne",
   "main": "lib/index.js",
-  "keywords": [
-    "JSON",
-    "parse",
-    "safe",
-    "prototype"
-  ],
+  "keywords": ["JSON", "parse", "safe", "prototype"],
   "dependencies": {},
   "devDependencies": {
     "benchmark": "^2.1.4",
