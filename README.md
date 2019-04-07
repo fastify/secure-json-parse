@@ -1,8 +1,8 @@
+<a href="http://hapijs.com"><img src="https://github.com/hapijs/assets/blob/master/images/family.svg" width="180px" align="right" /></a>
+
 # Bourne. JSON Bourne.
 
 `JSON.parse()` drop-in replacement with prototype poisoning protection
-
-Lead Maintainer: [Eran Hammer](https://github.com/hueniverse)
 
 [![Build Status](https://travis-ci.org/hapijs/bourne.svg)](https://travis-ci.org/hapijs/bourne)
 
