@@ -1,8 +1,8 @@
 'use strict';
 
-const Code = require('code');
+const Code = require('@hapi/code');
 const Bourne = require('..');
-const Lab = require('lab');
+const Lab = require('@hapi/lab');
 
 
 const internals = {};
@@ -135,6 +135,24 @@ describe('Bourne', () => {
 
             Bourne.scan(obj, { protoAction: 'remove' });
             expect(obj).to.equal({ a: 5, b: 6, hasOwnProperty: 'text' });
+        });
+    });
+
+    describe('safeParse()', () => {
+
+        it('parses object string', () => {
+
+            expect(Bourne.safeParse('{"a": 5, "b": 6}')).to.equal({ a: 5, b: 6 });
+        });
+
+        it('returns null on proto object string', () => {
+
+            expect(Bourne.safeParse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }')).to.be.null();
+        });
+
+        it('returns null on invalid object string', () => {
+
+            expect(Bourne.safeParse('{"a": 5, "b": 6')).to.be.null();
         });
     });
 });
