@@ -103,6 +103,7 @@ describe('Bourne', () => {
 
         it('errors on proto property (unicode)', () => {
 
+            expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005F_proto__": { "x": 7 } }')).to.throw(SyntaxError);
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005f_proto__": { "x": 7 } }')).to.throw(SyntaxError);
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "_\\u005fp\\u0072oto__": { "x": 7 } }')).to.throw(SyntaxError);
             expect(() => Bourne.parse('{ "a": 5, "b": 6, "\\u005f\\u005f\\u0070\\u0072\\u006f\\u0074\\u006f\\u005f\\u005f": { "x": 7 } }')).to.throw(SyntaxError);
