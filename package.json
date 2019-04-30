@@ -11,7 +11,6 @@
     "url": "git+https://github.com/fastify/secure-json-parse.git"
   },
   "keywords": [],
-  "author": "Tomas Della Vedova",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/fastify/secure-json-parse/issues"
