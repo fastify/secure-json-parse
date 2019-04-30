@@ -1,10 +1,8 @@
-<a href="http://hapijs.com"><img src="https://raw.githubusercontent.com/hapijs/assets/master/images/family.png" width="180px" align="right" /></a>
+# secure-json-parse
 
-# Bourne. JSON Bourne.
+[![Build Status](https://dev.azure.com/fastify/fastify/_apis/build/status/fastify.secure-json-parse?branchName=master)](https://dev.azure.com/fastify/fastify/_build/latest?definitionId=8&branchName=master) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
-`JSON.parse()` drop-in replacement with prototype poisoning protection
-
-[![Build Status](https://travis-ci.org/hapijs/bourne.svg)](https://travis-ci.org/hapijs/bourne)
+`JSON.parse()` drop-in replacement with prototype poisoning protection.
 
 ## Introduction
 
@@ -52,3 +50,11 @@ Scans a given object for prototype properties where:
     - `protoAction` - optional string with one of:
         - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
         - `'remove'` - deletes any `__proto__` keys from the input `obj`.
+
+# Acknowledgements
+This project has been forked from [hapijs/bourne](https://github.com/hapijs/bourne).
+All the credits before the commit [4690682](https://github.com/hapijs/bourne/commit/4690682c6cdaa06590da7b2485d5df91c09da889) goes to the hapijs/bourne project contributors.
+After, the project will be maintained by the Fastify team.
+
+# License
+Licensed under BSD-3-Clause.
