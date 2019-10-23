@@ -63,7 +63,7 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
-        delete node.__proto__ // eslint-disable-line
+        delete node.__proto__ // eslint-disable-line no-proto
       }
 
       if (constructorAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, 'constructor')) { // Avoid calling node.hasOwnProperty directly
