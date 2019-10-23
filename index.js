@@ -54,7 +54,7 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
   const protoAction = options.protoAction || 'error'
   const constructorAction = options.constructorAction || 'error'
 
-  var next = [obj]
+  let next = [obj]
 
   while (next.length) {
     const nodes = next
