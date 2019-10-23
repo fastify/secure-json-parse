@@ -51,9 +51,6 @@ function parse (text, reviver, options) {
 }
 
 function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
-  const protoAction = options.protoAction || 'error'
-  const constructorAction = options.constructorAction || 'error'
-
   let next = [obj]
 
   while (next.length) {
