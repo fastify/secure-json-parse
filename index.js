@@ -6,7 +6,7 @@ const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s
 function parse (text, reviver, options) {
   // Normalize arguments
   if (options == null) {
-    if (reviver != null && typeof reviver === 'object') {
+    if (reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
     } else {
@@ -26,7 +26,7 @@ function parse (text, reviver, options) {
   }
 
   // Ignore null and non-objects
-  if (!obj || typeof obj !== 'object') {
+  if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
