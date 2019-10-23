@@ -8,7 +8,7 @@
 
 Consider this:
 
-```
+```js
 > const a = '{"__proto__":{ "b":5}}';
 '{"__proto__":{ "b":5}}'
 
@@ -29,9 +29,29 @@ The problem is that `JSON.parse()` retains the `__proto__` property as a plain o
 itself, this is not a security issue. However, as soon as that object is assigned to another or
 iterated on and values copied, the `__proto__` property leaks and becomes the object's prototype.
 
+## Install
+```
+npm install secure-json-parse
+```
+
+## Usage
+
+Pass the option object as a second (or third) parameter for configuring the action to take in case of a bad JSON, if nothing is configured, the default is to throw a `SyntaxError`.<br/>
+You can choose which action to perform in case `__proto__` is present, and in case `constructor` is present.
+
+```js
+const sjson = require('secure-json-parse')
+
+const goodJson = '{ "a": 5, "b": 6 }'
+const badJson = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "constructor": {"prototype": {"bar": "baz"} } }'
+
+console.log(JSON.parse(goodJson), sjson.parse(goodJson, { protoAction: 'remove', constructorAction: 'remove' }))
+console.log(JSON.parse(badJson), sjson.parse(badJson, { protoAction: 'remove', constructorAction: 'remove' }))
+```
+
 ## API
 
-### `Bourne.parse(text, [reviver], [options])`
+### `sjson.parse(text, [reviver], [options])`
 
 Parses a given JSON-formatted text into an object where:
 - `text` - the JSON text string.
@@ -41,8 +61,12 @@ Parses a given JSON-formatted text into an object where:
         - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
         - `'remove'` - deletes any `__proto__` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
+    - `constructorAction` - optional string with one of:
+        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'remove'` - deletes any `constructor` keys from the result object.
+        - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
 
-### `Bourne.scan(obj, [options])`
+### `sjson.scan(obj, [options])`
 
 Scans a given object for prototype properties where:
 - `obj` - the object being scanned.
@@ -50,6 +74,9 @@ Scans a given object for prototype properties where:
     - `protoAction` - optional string with one of:
         - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
         - `'remove'` - deletes any `__proto__` keys from the input `obj`.
+    - `constructorAction` - optional string with one of:
+        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'remove'` - deletes any `constructor` keys from the input `obj`.
 
 # Acknowledgements
 This project has been forked from [hapijs/bourne](https://github.com/hapijs/bourne).

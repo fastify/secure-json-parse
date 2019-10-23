@@ -1,11 +1,12 @@
 'use strict'
 
-const suspectRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
+const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
+const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
 
 function parse (text, reviver, options) {
   // Normalize arguments
   if (options == null) {
-    if (reviver != null && typeof reviver === 'object') {
+    if (reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
     } else {
@@ -13,46 +14,64 @@ function parse (text, reviver, options) {
     }
   }
 
+  const protoAction = options.protoAction || 'error'
+  const constructorAction = options.constructorAction || 'error'
+
   // Parse normally, allowing exceptions
   const obj = JSON.parse(text, reviver)
 
-  // options.protoAction: 'error' (default) / 'remove' / 'ignore'
-  if (options.protoAction === 'ignore') {
+  // options: 'error' (default) / 'remove' / 'ignore'
+  if (protoAction === 'ignore' && constructorAction === 'ignore') {
     return obj
   }
 
   // Ignore null and non-objects
-  if (!obj || typeof obj !== 'object') {
+  if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
-  // Check original string for potential exploit
-  if (!text.match(suspectRx)) {
-    return obj
+  if (protoAction !== 'ignore' && constructorAction !== 'ignore') {
+    if (suspectProtoRx.test(text) === false && suspectConstructorRx.test(text) === false) {
+      return obj
+    }
+  } else if (protoAction !== 'ignore' && constructorAction === 'ignore') {
+    if (suspectProtoRx.test(text) === false) {
+      return obj
+    }
+  } else {
+    if (suspectConstructorRx.test(text) === false) {
+      return obj
+    }
   }
 
   // Scan result for proto keys
-  scan(obj, options)
+  scan(obj, { protoAction, constructorAction })
 
   return obj
 }
 
-function scan (obj, options) {
-  options = options || {}
-
-  var next = [obj]
+function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
+  let next = [obj]
 
   while (next.length) {
     const nodes = next
     next = []
 
     for (const node of nodes) {
-      if (Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
-        if (options.protoAction !== 'remove') {
+      if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
+        if (protoAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
-        delete node.__proto__ // eslint-disable-line
+        delete node.__proto__ // eslint-disable-line no-proto
+      }
+
+      if (constructorAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, 'constructor')) { // Avoid calling node.hasOwnProperty directly
+        if (constructorAction === 'error') {
+          throw new SyntaxError('Object contains forbidden prototype property')
+        }
+
+        delete node.constructor
       }
 
       for (const key in node) {
