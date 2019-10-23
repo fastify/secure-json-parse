@@ -50,7 +50,7 @@ function parse (text, reviver, options) {
   return obj
 }
 
-function scan (obj, options = {}) {
+function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
   const protoAction = options.protoAction || 'error'
   const constructorAction = options.constructorAction || 'error'
 
