@@ -223,6 +223,8 @@ test('parse', t => {
       t.throws(() => j.parse('{ "a": 5, "b": 6, "\\u0063\\u006fnstructor": {"prototype":{"bar":"baz"}} }'), SyntaxError)
       t.throws(() => j.parse('{ "a": 5, "b": 6, "\\u0063\\u006f\\u006e\\u0073\\u0074ructor": {"prototype":{"bar":"baz"}} }'), SyntaxError)
       t.throws(() => j.parse('{ "a": 5, "b": 6, "\\u0063\\u006f\\u006e\\u0073\\u0074\\u0072\\u0075\\u0063\\u0074\\u006f\\u0072": {"prototype":{"bar":"baz"}} }'), SyntaxError)
+      t.throws(() => j.parse('{ "a": 5, "b": 6, "\\u0063\\u006Fnstructor": {"prototype":{"bar":"baz"}} }'), SyntaxError)
+      t.throws(() => j.parse('{ "a": 5, "b": 6, "\\u0063\\u006F\\u006E\\u0073\\u0074\\u0072\\u0075\\u0063\\u0074\\u006F\\u0072": {"prototype":{"bar":"baz"}} }'), SyntaxError)
       t.end()
     })
 
