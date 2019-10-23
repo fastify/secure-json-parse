@@ -31,7 +31,7 @@ function parse (text, reviver, options) {
   }
 
   if (protoAction !== 'ignore' && constructorAction !== 'ignore') {
-    if (!text.match(suspectProtoRx) && !text.match(suspectConstructorRx)) {
+    if (suspectProtoRx.test(text) === false && suspectConstructorRx.test(text) === false) {
       return obj
     }
   } else if (protoAction !== 'ignore' && constructorAction === 'ignore') {
