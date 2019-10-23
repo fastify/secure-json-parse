@@ -39,7 +39,7 @@ function parse (text, reviver, options) {
       return obj
     }
   } else {
-    if (!text.match(suspectConstructorRx)) {
+    if (suspectConstructorRx.test(text) === false) {
       return obj
     }
   }
