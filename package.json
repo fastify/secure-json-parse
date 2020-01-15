@@ -1,6 +1,6 @@
 {
   "name": "secure-json-parse",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "JSON parse with prototype poisoning protection",
   "main": "index.js",
   "scripts": {
