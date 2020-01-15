@@ -17,6 +17,11 @@ function parse (text, reviver, options) {
   const protoAction = options.protoAction || 'error'
   const constructorAction = options.constructorAction || 'error'
 
+  // BOM checker
+  if (text && text.charCodeAt(0) === 0xFEFF) {
+    text = text.slice(1)
+  }
+
   // Parse normally, allowing exceptions
   const obj = JSON.parse(text, reviver)
 
