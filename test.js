@@ -363,3 +363,13 @@ test('safeParse', t => {
 
   t.end()
 })
+
+test('parse string with BOM', t => {
+  const theJson = { hello: 'world' }
+  const buffer = Buffer.concat([
+    Buffer.from([239, 187, 191]), // the utf8 BOM
+    Buffer.from(JSON.stringify(theJson))
+  ])
+  t.deepEqual(j.parse(buffer.toString()), theJson)
+  t.end()
+})
