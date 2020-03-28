@@ -1,7 +1,7 @@
 # secure-json-parse
 
 ![Ci Workflow](https://github.com/fastify/secure-json-parse/workflows/CI%20workflow/badge.svg)
- [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 `JSON.parse()` drop-in replacement with prototype poisoning protection.
 
