@@ -1,6 +1,7 @@
 # secure-json-parse
 
-[![Build Status](https://dev.azure.com/fastify/fastify/_apis/build/status/fastify.secure-json-parse?branchName=master)](https://dev.azure.com/fastify/fastify/_build/latest?definitionId=8&branchName=master) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/fastify/secure-json-parse.svg)](https://greenkeeper.io/)
+![Ci Workflow](https://github.com/fastify/secure-json-parse/workflows/CI%20workflow/badge.svg)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 `JSON.parse()` drop-in replacement with prototype poisoning protection.
 
