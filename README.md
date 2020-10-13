@@ -89,21 +89,21 @@ v14.8.0
 > node ignore.js
 
 JSON.parse x 679,376 ops/sec ±1.15% (84 runs sampled)
-Bourne.parse x 649,605 ops/sec ±0.58% (87 runs sampled)
+secure-json-parse x 649,605 ops/sec ±0.58% (87 runs sampled)
 reviver x 244,414 ops/sec ±1.05% (88 runs sampled)
 Fastest is JSON.parse
 
 > node no__proto__.js
 
 JSON.parse x 652,190 ops/sec ±0.67% (86 runs sampled)
-Bourne.parse x 589,785 ops/sec ±1.01% (88 runs sampled)
+secure-json-parse x 589,785 ops/sec ±1.01% (88 runs sampled)
 reviver x 218,075 ops/sec ±1.58% (87 runs sampled)
 Fastest is JSON.parse
 
 > node remove.js
 
 JSON.parse x 683,527 ops/sec ±0.62% (88 runs sampled)
-Bourne.parse x 316,926 ops/sec ±0.63% (87 runs sampled)
+secure-json-parse x 316,926 ops/sec ±0.63% (87 runs sampled)
 reviver x 214,167 ops/sec ±0.63% (86 runs sampled)
 Fastest is JSON.parse
 
@@ -111,7 +111,7 @@ Fastest is JSON.parse
 
 JSON.parse x 682,548 ops/sec ±0.60% (88 runs sampled)
 JSON.parse error x 170,716 ops/sec ±0.93% (87 runs sampled)
-Bourne.parse x 104,483 ops/sec ±0.62% (87 runs sampled)
+secure-json-parse x 104,483 ops/sec ±0.62% (87 runs sampled)
 reviver x 114,197 ops/sec ±0.63% (87 runs sampled)
 Fastest is JSON.parse
 ```

@@ -1,7 +1,7 @@
 'use strict'
 
 const Benchmark = require('benchmark')
-const Bourne = require('..')
+const sjson = require('..')
 
 const internals = {
   text: '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }',
@@ -19,9 +19,9 @@ suite
       JSON.parse(internals.invalid)
     } catch (ignoreErr) { }
   })
-  .add('Bourne.parse', () => {
+  .add('secure-json-parse', () => {
     try {
-      Bourne.parse(internals.text)
+      sjson.parse(internals.text)
     } catch (ignoreErr) { }
   })
   .add('reviver', () => {
