@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/fastify/secure-json-parse#readme",
   "devDependencies": {
-    "standard": "^14.3.1",
+    "standard": "^15.0.0",
     "tap": "^12.7.0"
   }
 }
