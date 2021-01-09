@@ -17,6 +17,10 @@ function parse (text, reviver, options) {
   const protoAction = options.protoAction || 'error'
   const constructorAction = options.constructorAction || 'error'
 
+  if (Buffer.isBuffer(text)) {
+    text = text.toString()
+  }
+
   // BOM checker
   if (text && text.charCodeAt(0) === 0xFEFF) {
     text = text.slice(1)
