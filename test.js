@@ -36,6 +36,14 @@ test('parse', t => {
     t.end()
   })
 
+  t.test('parses buffer', t => {
+    t.strictEqual(
+      j.parse(Buffer.from('"X"')),
+      JSON.parse(Buffer.from('"X"'))
+    )
+    t.end()
+  })
+
   t.test('parses object string (reviver)', t => {
     const reviver = (key, value) => {
       return typeof value === 'number' ? value + 1 : value
@@ -371,5 +379,15 @@ test('parse string with BOM', t => {
     Buffer.from(JSON.stringify(theJson))
   ])
   t.deepEqual(j.parse(buffer.toString()), theJson)
+  t.end()
+})
+
+test('parse buffer with BOM', t => {
+  const theJson = { hello: 'world' }
+  const buffer = Buffer.concat([
+    Buffer.from([239, 187, 191]), // the utf8 BOM
+    Buffer.from(JSON.stringify(theJson))
+  ])
+  t.deepEqual(j.parse(buffer), theJson)
   t.end()
 })
