@@ -5,4 +5,4 @@ update_configs:
     update_schedule: "daily"
     ignored_updates:
       - match:
-          dependency_name: "tap"
+          dependency_name: "tape"
