@@ -17,7 +17,7 @@ function parse (text, reviver, options) {
   const protoAction = options.protoAction || 'error'
   const constructorAction = options.constructorAction || 'error'
 
-  if (Buffer.isBuffer(text)) {
+  if (typeof Buffer !== 'undefined' && Buffer.isBuffer(text)) {
     text = text.toString()
   }
 
