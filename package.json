@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
-    "test": "standard && tap test.js"
+    "test": "standard && tape test.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,6 @@
   "homepage": "https://github.com/fastify/secure-json-parse#readme",
   "devDependencies": {
     "standard": "^16.0.0",
-    "tap": "^12.7.0"
+    "tape": "^5.1.1"
   }
 }
