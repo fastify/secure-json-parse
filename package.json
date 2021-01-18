@@ -4,6 +4,7 @@
   "description": "JSON parse with prototype poisoning protection",
   "main": "index.js",
   "scripts": {
+    "benchmark": "cd benchmarks && npm install && npm run all",
     "test": "standard && tap test.js"
   },
   "repository": {
