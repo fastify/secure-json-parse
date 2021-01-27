@@ -1,6 +1,15 @@
 name: CI workflow
 on: [push, pull_request]
 jobs:
+  browsers:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+    - name: Install Dependencies
+      run: npm install
+    - name: Test
+      run: npm run test-in-browsers
   test:
     runs-on: ubuntu-latest
     strategy:

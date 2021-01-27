@@ -1,6 +1,6 @@
 'use strict'
 
-const test = require('tap').test
+const test = require('tape').test
 const j = require('./index')
 
 test('parse', t => {
