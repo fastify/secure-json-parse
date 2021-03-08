@@ -38,7 +38,7 @@ npm install secure-json-parse
 ## Usage
 
 Pass the option object as a second (or third) parameter for configuring the action to take in case of a bad JSON, if nothing is configured, the default is to throw a `SyntaxError`.<br/>
-You can choose which action to perform in case `__proto__` is present, and in case `constructor` is present.
+You can choose which action to perform in case `__proto__` is present, and in case `constructor.prototype` is present.
 
 ```js
 const sjson = require('secure-json-parse')
@@ -63,7 +63,7 @@ Parses a given JSON-formatted text into an object where:
         - `'remove'` - deletes any `__proto__` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
     - `constructorAction` - optional string with one of:
-        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
 
@@ -76,7 +76,7 @@ Scans a given object for prototype properties where:
         - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
         - `'remove'` - deletes any `__proto__` keys from the input `obj`.
     - `constructorAction` - optional string with one of:
-        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the input `obj`.
 
 ## Benchmarks
