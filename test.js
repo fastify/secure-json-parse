@@ -185,6 +185,14 @@ test('parse', t => {
       t.end()
     })
 
+    t.test('sanitizes object string (no prototype key)', t => {
+      t.deepEqual(
+        j.parse('{"a": 5, "b": 6,"constructor":{"bar":"baz"} }', { constructorAction: 'remove' }),
+        { a: 5, b: 6, constructor: { bar: 'baz' } }
+      )
+      t.end()
+    })
+
     t.test('sanitizes nested object string', t => {
       t.deepEqual(
         j.parse('{ "a": 5, "b": 6, "constructor":{"prototype":{"bar":"baz"}}, "c": { "d": 0, "e": "text", "constructor":{"prototype":{"bar":"baz"}}, "f": { "g": 2 } } }', { constructorAction: 'remove' }),
@@ -214,6 +222,11 @@ test('parse', t => {
       t.throws(() => j.parse('{ "a": 5, "b": 6, "constructor" : {"prototype":{"bar":"baz"}} }'), SyntaxError)
       t.throws(() => j.parse('{ "a": 5, "b": 6, "constructor" \n\r\t : {"prototype":{"bar":"baz"}} }'), SyntaxError)
       t.throws(() => j.parse('{ "a": 5, "b": 6, "constructor" \n \r \t : {"prototype":{"bar":"baz"}} }'), SyntaxError)
+      t.end()
+    })
+
+    t.test('Should not throw if the constructor key hasn\'t a child named prototype', t => {
+      t.doesNotThrow(() => j.parse('{ "a": 5, "b": 6, "constructor":{"bar":"baz"} }', null, null), SyntaxError)
       t.end()
     })
 
