@@ -28,7 +28,7 @@
   "devDependencies": {
     "airtap": "^4.0.1",
     "airtap-playwright": "^1.0.1",
-    "nyc": "^14.1.1",
+    "nyc": "^15.1.0",
     "playwright": "^1.7.1",
     "standard": "^16.0.0",
     "tape": "^5.1.1"
