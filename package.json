@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
-    "test": "standard && nyc tape test.js",
+    "test": "standard && tsd && nyc tape test.js",
     "test-in-browsers": "airtap test.js"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "nyc": "^14.1.1",
     "playwright": "^1.7.1",
     "standard": "^16.0.0",
-    "tape": "^5.1.1"
+    "tape": "^5.1.1",
+    "tsd": "^0.14.0"
   }
 }

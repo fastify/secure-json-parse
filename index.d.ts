@@ -13,7 +13,7 @@ export type ParseOptions = {
    * - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
    */
   constructorAction?: 'error' | 'remove' | 'ignore',
-};
+}
 
 export type ScanOptions = {
   /**
@@ -28,7 +28,9 @@ export type ScanOptions = {
    * - `'remove'` - deletes any `constructor` keys from the input `obj`.
    */
   constructorAction?: 'error' | 'remove',
-};
+}
+
+type Reviver = (this: any, key: string, value: any) => any
 
 /**
  * Parses a given JSON-formatted text into an object.
@@ -38,7 +40,7 @@ export type ScanOptions = {
  * @param options Optional configuration object.
  * @returns The parsed object.
  */
-export function parse(text: string | Buffer, reviver?: (this: any, key: string, value: any) => any, options?: ParseOptions): any;
+export function parse(text: string | Buffer, reviver?: Reviver | null, options?: ParseOptions): any
 
 /**
  * Parses a given JSON-formatted text into an object.
@@ -47,7 +49,7 @@ export function parse(text: string | Buffer, reviver?: (this: any, key: string, 
  * @param reviver The `JSON.parse()` optional `reviver` argument.
  * @returns The parsed object, or `null` if there was an error or if the JSON contained possibly insecure properties.
  */
-export function safeParse(text: string | Buffer, reviver?: (this: any, key: string, value: any) => any): any;
+export function safeParse(text: string | Buffer, reviver?: Reviver | null): any
 
 /**
  * Scans a given object for prototype properties.
@@ -55,4 +57,4 @@ export function safeParse(text: string | Buffer, reviver?: (this: any, key: stri
  * @param obj The object being scanned.
  * @param options Optional configuration object.
  */
-export function scan(obj: any, options?: ScanOptions): void;
+export function scan(obj: any, options?: ScanOptions): void
