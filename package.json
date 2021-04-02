@@ -3,6 +3,7 @@
   "version": "2.3.2",
   "description": "JSON parse with prototype poisoning protection",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
     "test": "standard && nyc tape test.js",
