@@ -1,6 +1,17 @@
-name: CI workflow
-on: [push, pull_request]
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+
 jobs:
+
   browsers:
     runs-on: ubuntu-latest
     steps:
@@ -10,6 +21,7 @@ jobs:
       run: npm install
     - name: Test
       run: npm run test-in-browsers
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -25,6 +37,7 @@ jobs:
       run: npm install --ignore-scripts
     - name: Test
       run: npm run test
+
   test-legacy:
     runs-on: ubuntu-latest
     strategy:
@@ -40,3 +53,11 @@ jobs:
       run: npm install --ignore-scripts
     - name: Test
       run: npm run test-legacy
+
+  automerge:
+    needs: [browsers, test, test-legacy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v2.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

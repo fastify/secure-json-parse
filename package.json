@@ -6,9 +6,9 @@
   "types": "index.d.ts",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
-    "test-legacy": "nyc tape test.js",
     "test": "standard && tsd && nyc tape test.js",
-    "test-in-browsers": "airtap test.js"
+    "test-in-browsers": "airtap test.js",
+    "test-legacy": "nyc tape test.js"
   },
   "repository": {
     "type": "git",
