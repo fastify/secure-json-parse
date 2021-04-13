@@ -1,4 +1,4 @@
-name: CI workflow
+name: CI
 
 on:
   push:
@@ -11,6 +11,7 @@ on:
       - '*.md'
 
 jobs:
+
   browsers:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +21,7 @@ jobs:
       run: npm install
     - name: Test
       run: npm run test-in-browsers
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -35,6 +37,7 @@ jobs:
       run: npm install --ignore-scripts
     - name: Test
       run: npm run test
+
   test-legacy:
     runs-on: ubuntu-latest
     strategy:
