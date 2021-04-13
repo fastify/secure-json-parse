@@ -53,3 +53,11 @@ jobs:
       run: npm install --ignore-scripts
     - name: Test
       run: npm run test-legacy
+
+  automerge:
+    needs: [browsers, test, test-legacy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v2.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
