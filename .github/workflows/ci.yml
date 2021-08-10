@@ -58,6 +58,6 @@ jobs:
     needs: [browsers, test, test-legacy]
     runs-on: ubuntu-latest
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.3.0
+      - uses: fastify/github-action-merge-dependabot@v2.4.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
