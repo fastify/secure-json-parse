@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.0
-    - uses: actions/setup-node@v2.4.1
+    - uses: actions/setup-node@v2.5.0
     - name: Install Dependencies
       run: npm install
     - name: Test
@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2.4.0
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.4.1
+      uses: actions/setup-node@v2.5.0
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
@@ -46,7 +46,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2.4.0
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.4.1
+      uses: actions/setup-node@v2.5.0
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
