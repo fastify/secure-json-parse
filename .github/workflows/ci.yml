@@ -1,63 +1,72 @@
 name: CI
-
 on:
   push:
     paths-ignore:
-      - 'docs/**'
+      - docs/**
       - '*.md'
   pull_request:
     paths-ignore:
-      - 'docs/**'
+      - docs/**
       - '*.md'
-
 jobs:
-
   browsers:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-    - name: Install Dependencies
-      run: npm install
-    - name: Test
-      run: npm run test-in-browsers
-
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Dependencies
+        run: npm install
+      - name: Test
+        run: npm run test-in-browsers
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10, 11, 12, 13, 14, 15, 16]
+        node-version:
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      run: npm install --ignore-scripts
-    - name: Test
-      run: npm test
-
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: npm install --ignore-scripts
+      - name: Test
+        run: npm test
   test-legacy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [6, 8]
+        node-version:
+          - 6
+          - 8
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      run: npm install --ignore-scripts
-    - name: Test
-      run: npm run test-legacy
-
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: npm install --ignore-scripts
+      - name: Test
+        run: npm run test-legacy
   automerge:
-    needs: [browsers, test, test-legacy]
+    needs:
+      - browsers
+      - test
+      - test-legacy
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.7.1
+      - uses: fastify/github-action-merge-dependabot@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
