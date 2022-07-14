@@ -14,8 +14,11 @@ suite
   .add('JSON.parse', () => {
     JSON.parse(internals.text)
   })
-  .add('secure-json-parse', () => {
+  .add('secure-json-parse parse', () => {
     sjson.parse(internals.text)
+  })
+  .add('secure-json-parse safeParse', () => {
+    sjson.safeParse(internals.text)
   })
   .add('reviver', () => {
     JSON.parse(internals.text, internals.reviver)
