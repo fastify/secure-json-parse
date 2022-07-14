@@ -353,7 +353,6 @@ test('parse', t => {
     t.end()
   })
 
-
   t.test('does not break when hasOwnProperty is overwritten', t => {
     const text = '{ "a": 5, "b": 6, "hasOwnProperty": "text", "__proto__": { "x": 7 } }'
 

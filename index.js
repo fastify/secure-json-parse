@@ -6,17 +6,17 @@ const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s
 
 function parse (text, reviver, options) {
   // Normalize arguments
-  if (options == null) {
-    if (reviver !== null && typeof reviver === 'object') {
-      options = reviver
-      reviver = undefined
-    } else {
-      options = {}
-    }
+  if (
+    options == null &&
+    reviver !== null &&
+    typeof reviver === 'object'
+  ) {
+    options = reviver
+    reviver = undefined
   }
 
-  const protoAction = options.protoAction || 'error'
-  const constructorAction = options.constructorAction || 'error'
+  const protoAction = (options && options.protoAction) || 'error'
+  const constructorAction = (options && options.constructorAction) || 'error'
 
   if (hasBuffer && Buffer.isBuffer(text)) {
     text = text.toString()
@@ -54,20 +54,17 @@ function parse (text, reviver, options) {
     }
   }
 
-  // Scan result for proto keys
-  scan(obj, { protoAction, constructorAction })
-
-  return obj
-}
-
-function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
   let next = [obj]
+  let i = 0
+  let il = 1
+  let node
 
-  while (next.length) {
+  while (il = next.length) { // eslint-disable-line no-cond-assign
     const nodes = next
     next = []
 
-    for (const node of nodes) {
+    for (i = 0; i < il; ++i) {
+      node = nodes[i]
       if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
         if (protoAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
@@ -94,18 +91,66 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       }
     }
   }
+  return obj
 }
 
 function safeParse (text, reviver) {
+  if (hasBuffer && Buffer.isBuffer(text)) {
+    text = text.toString()
+  }
+
+  // BOM checker
+  if (text && text.charCodeAt(0) === 0xFEFF) {
+    text = text.slice(1)
+  }
+
+  let obj = null
   try {
-    return parse(text, reviver)
-  } catch (ignoreError) {
+    obj = JSON.parse(text, reviver)
+  } catch (err) {
     return null
   }
+
+  // Ignore null and non-objects
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  if (suspectProtoRx.test(text) === false && suspectConstructorRx.test(text) === false) {
+    return obj
+  }
+
+  let next = [obj]
+  let i = 0
+  let il = 1
+  let node
+  while (il = next.length) { // eslint-disable-line no-cond-assign
+    const nodes = next
+    next = []
+
+    for (i = 0; i < il; ++i) {
+      node = nodes[i]
+      if (Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
+        return null
+      }
+
+      if (Object.prototype.hasOwnProperty.call(node, 'constructor') &&
+            Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
+        return null
+      }
+
+      for (const key in node) {
+        const value = node[key]
+        if (value && typeof value === 'object') {
+          next.push(node[key])
+        }
+      }
+    }
+  }
+  return obj
 }
 
 module.exports = {
   parse,
-  scan,
   safeParse
 }
