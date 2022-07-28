@@ -17,51 +17,66 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Test
-        run: npm run test-in-browsers
-  test:
+        run: npm run test:browser
+
+  lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 10
-          - 11
-          - 12
-          - 13
-          - 14
-          - 15
-          - 16
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
       - name: Install Dependencies
         run: npm install --ignore-scripts
-      - name: Test
-        run: npm test
-  test-legacy:
+      - name: Lint
+        run: npm run lint
+
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version:
           - 6
           - 8
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 16
+          - 18
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Upgrade npm
+        if: ${{ success() && matrix.node-version == '6' }}
+        run: npm i npm@6.13.4 -g
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: Test
-        run: npm run test-legacy
+        run: npm run test:unit
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm install --ignore-scripts
+      - name: tsd
+        run: npm run test:typescript
+
   automerge:
     needs:
+      - lint
       - browsers
       - test
-      - test-legacy
+      - typescript
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
