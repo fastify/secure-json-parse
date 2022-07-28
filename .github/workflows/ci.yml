@@ -47,14 +47,13 @@ jobs:
           - 18
     steps:
       - uses: actions/checkout@v3
-      - name: Upgrade npm
-        if: ${{ success() && matrix.node-version == '6' }}
-        run: npm i npm@6.13.4 -g
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Upgrade npm
+        if: ${{ success() && matrix.node-version == '6' }}
+        run: npm i npm@6.13.4 -g
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: Test
