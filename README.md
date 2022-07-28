@@ -34,7 +34,7 @@ iterated on and values copied, the `__proto__` property leaks and becomes the ob
 
 ## Install
 ```
-npm install secure-json-parse
+npm i secure-json-parse
 ```
 
 ## Usage
