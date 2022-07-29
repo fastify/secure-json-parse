@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('tape').test
-const j = require('./index')
+const j = require('..')
 
 test('parse', t => {
   t.test('parses object string', t => {
@@ -324,40 +324,82 @@ test('parse', t => {
     t.end()
   })
 
-  t.end()
-})
-
-test('scan', t => {
   t.test('sanitizes nested object string', t => {
     const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
-    const obj = JSON.parse(text)
 
-    j.scan(obj, { protoAction: 'remove' })
+    const obj = j.parse(text, { protoAction: 'remove' })
     t.deepEqual(obj, { a: 5, b: 6, c: { d: 0, e: 'text', f: { g: 2 } } })
+    t.end()
+  })
+
+  t.test('errors on constructor property', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.throws(() => j.parse(text), SyntaxError)
     t.end()
   })
 
   t.test('errors on proto property', t => {
     const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
-    const obj = JSON.parse(text)
 
-    t.throws(() => j.scan(obj), SyntaxError)
+    t.throws(() => j.parse(text), SyntaxError)
+    t.end()
+  })
+
+  t.test('errors on constructor property', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.throws(() => j.parse(text), SyntaxError)
     t.end()
   })
 
   t.test('does not break when hasOwnProperty is overwritten', t => {
     const text = '{ "a": 5, "b": 6, "hasOwnProperty": "text", "__proto__": { "x": 7 } }'
-    const obj = JSON.parse(text)
 
-    j.scan(obj, { protoAction: 'remove' })
+    const obj = j.parse(text, { protoAction: 'remove' })
     t.deepEqual(obj, { a: 5, b: 6, hasOwnProperty: 'text' })
     t.end()
   })
-
   t.end()
 })
 
 test('safeParse', t => {
+  t.test('parses buffer', t => {
+    t.strictEqual(
+      j.safeParse(Buffer.from('"X"')),
+      JSON.parse(Buffer.from('"X"'))
+    )
+    t.end()
+  })
+
+  t.test('sanitizes nested object string', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.same(j.safeParse(text), null)
+    t.end()
+  })
+
+  t.test('returns null on constructor property', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.same(j.safeParse(text), null)
+    t.end()
+  })
+
+  t.test('returns null on proto property', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.same(j.safeParse(text), null)
+    t.end()
+  })
+
+  t.test('returns null on constructor property', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
+
+    t.same(j.safeParse(text), null)
+    t.end()
+  })
+
   t.test('parses object string', t => {
     t.deepEqual(
       j.safeParse('{"a": 5, "b": 6}'),
@@ -382,6 +424,22 @@ test('safeParse', t => {
     t.end()
   })
 
+  t.test('sanitizes object string (options)', t => {
+    t.deepEqual(
+      j.safeParse('{"a": 5, "b": 6, "constructor":{"prototype":{"bar":"baz"}} }'),
+      null
+    )
+    t.end()
+  })
+
+  t.test('sanitizes object string (no prototype key)', t => {
+    t.deepEqual(
+      j.safeParse('{"a": 5, "b": 6,"constructor":{"bar":"baz"} }'),
+      { a: 5, b: 6, constructor: { bar: 'baz' } }
+    )
+    t.end()
+  })
+
   t.end()
 })
 
@@ -402,5 +460,30 @@ test('parse buffer with BOM', t => {
     Buffer.from(JSON.stringify(theJson))
   ])
   t.deepEqual(j.parse(buffer), theJson)
+  t.end()
+})
+
+test('safeParse string with BOM', t => {
+  const theJson = { hello: 'world' }
+  const buffer = Buffer.concat([
+    Buffer.from([239, 187, 191]), // the utf8 BOM
+    Buffer.from(JSON.stringify(theJson))
+  ])
+  t.deepEqual(j.safeParse(buffer.toString()), theJson)
+  t.end()
+})
+
+test('safeParse buffer with BOM', t => {
+  const theJson = { hello: 'world' }
+  const buffer = Buffer.concat([
+    Buffer.from([239, 187, 191]), // the utf8 BOM
+    Buffer.from(JSON.stringify(theJson))
+  ])
+  t.deepEqual(j.safeParse(buffer), theJson)
+  t.end()
+})
+
+test('scan handles optional options', t => {
+  t.doesNotThrow(() => j.scan({ a: 'b' }))
   t.end()
 })
