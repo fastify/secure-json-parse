@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd'
-import sjson = require('.')
+import sjson from '..'
 
 expectError(sjson.parse(null))
 expectType<any>(sjson.parse('{"anything":0}'))
