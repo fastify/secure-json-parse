@@ -10,13 +10,8 @@ function parse (text, reviver, options) {
     if (reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
-    } else {
-      options = {}
     }
   }
-
-  const protoAction = options.protoAction || 'error'
-  const constructorAction = options.constructorAction || 'error'
 
   if (hasBuffer && Buffer.isBuffer(text)) {
     text = text.toString()
@@ -30,13 +25,16 @@ function parse (text, reviver, options) {
   // Parse normally, allowing exceptions
   const obj = JSON.parse(text, reviver)
 
-  // options: 'error' (default) / 'remove' / 'ignore'
-  if (protoAction === 'ignore' && constructorAction === 'ignore') {
+  // Ignore null and non-objects
+  if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
-  // Ignore null and non-objects
-  if (obj === null || typeof obj !== 'object') {
+  const protoAction = options && options.protoAction || 'error'
+  const constructorAction = options && options.constructorAction || 'error'
+
+  // options: 'error' (default) / 'remove' / 'ignore'
+  if (protoAction === 'ignore' && constructorAction === 'ignore') {
     return obj
   }
 
@@ -55,10 +53,10 @@ function parse (text, reviver, options) {
   }
 
   // Scan result for proto keys
-  return filter(obj, { protoAction, constructorAction })
+  return filter(obj, { protoAction, constructorAction, safe: options && options.safe })
 }
 
-function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
+function filter (obj, { protoAction = 'error', constructorAction = 'error', safe } = {}) {
   let next = [obj]
 
   while (next.length) {
@@ -67,7 +65,9 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {
 
     for (const node of nodes) {
       if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
-        if (protoAction === 'error') {
+        if (safe === true) {
+          return null
+        } else if (protoAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
@@ -77,7 +77,9 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {
       if (constructorAction !== 'ignore' &&
           Object.prototype.hasOwnProperty.call(node, 'constructor') &&
           Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
-        if (constructorAction === 'error') {
+        if (safe === true) {
+          return null
+        } else if (constructorAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
@@ -87,7 +89,7 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {
       for (const key in node) {
         const value = node[key]
         if (value && typeof value === 'object') {
-          next.push(node[key])
+          next.push(value)
         }
       }
     }
@@ -95,9 +97,9 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {
   return obj
 }
 
-function safeParse (text, reviver, options) {
+function safeParse (text, reviver) {
   try {
-    return parse(text, reviver, options)
+    return parse(text, reviver, { safe: true })
   } catch (ignoreError) {
     return null
   }
