@@ -45,4 +45,4 @@ export function safeParse(text: string | Buffer, reviver?: Reviver | null): any
  * @param options Optional configuration object.
  * @returns The object, or `null` if onError is set to `nullify`
  */
-export function scan(obj: {[key: string]: any }, options?: ParseOptions): any
+export function scan(obj: {[key: string | number]: any }, options?: ParseOptions): any

@@ -17,6 +17,7 @@ sjson.scan({}, { protoAction: 'remove' })
 sjson.scan({}, { protoAction: 'ignore' })
 sjson.scan({}, { constructorAction: 'error' })
 sjson.scan({}, { constructorAction: 'ignore' })
+sjson.scan(new Array(), {})
 
 declare const input: Buffer
 sjson.parse(input)
