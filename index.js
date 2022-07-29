@@ -55,12 +55,10 @@ function parse (text, reviver, options) {
   }
 
   // Scan result for proto keys
-  scan(obj, { protoAction, constructorAction })
-
-  return obj
+  return filter(obj, { protoAction, constructorAction })
 }
 
-function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
+function filter (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
   let next = [obj]
 
   while (next.length) {
@@ -94,11 +92,12 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       }
     }
   }
+  return obj
 }
 
-function safeParse (text, reviver) {
+function safeParse (text, reviver, options) {
   try {
-    return parse(text, reviver)
+    return parse(text, reviver, options)
   } catch (ignoreError) {
     return null
   }
@@ -106,6 +105,6 @@ function safeParse (text, reviver) {
 
 module.exports = {
   parse,
-  scan,
+  scan: filter,
   safeParse
 }
