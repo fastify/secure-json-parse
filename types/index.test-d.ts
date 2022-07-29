@@ -13,10 +13,11 @@ sjson.safeParse('"test"', null)
 sjson.safeParse('"test"')
 expectError(sjson.safeParse(null))
 
-sjson.scan('"test"', { protoAction: 'remove' })
-expectError(sjson.scan('"test"', { protoAction: 'ignore' }))
-sjson.scan('"test"', { constructorAction: 'error' })
-expectError(sjson.scan('"test"', { constructorAction: 'ignore' }))
+sjson.scan({}, { protoAction: 'remove' })
+sjson.scan({}, { protoAction: 'ignore' })
+sjson.scan({}, { constructorAction: 'error' })
+sjson.scan({}, { constructorAction: 'ignore' })
+sjson.scan(new Array(), {})
 
 declare const input: Buffer
 sjson.parse(input)

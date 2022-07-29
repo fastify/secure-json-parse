@@ -5,30 +5,17 @@ export type ParseOptions = {
     * - `'remove'` - deletes any `__proto__` keys from the result object.
     * - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
     */
-  protoAction?: 'error' | 'remove' | 'ignore',
+  protoAction?: 'error' | 'remove' | 'ignore';
   /**
    * What to do when a `constructor` key is found.
    * - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
    * - `'remove'` - deletes any `constructor` keys from the result object.
    * - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
    */
-  constructorAction?: 'error' | 'remove' | 'ignore',
+  constructorAction?: 'error' | 'remove' | 'ignore';
 }
 
-export type ScanOptions = {
-  /**
-   * What to do when a `__proto__` key is found.
-    * - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
-    * - `'remove'` - deletes any `__proto__` keys from the input `obj`.
-    */
-  protoAction?: 'error' | 'remove',
-  /**
-   * What to do when a `constructor` key is found.
-   * - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
-   * - `'remove'` - deletes any `constructor` keys from the input `obj`.
-   */
-  constructorAction?: 'error' | 'remove',
-}
+export type ScanOptions = ParseOptions
 
 type Reviver = (this: any, key: string, value: any) => any
 
@@ -56,5 +43,6 @@ export function safeParse(text: string | Buffer, reviver?: Reviver | null): any
  *
  * @param obj The object being scanned.
  * @param options Optional configuration object.
+ * @returns The object, or `null` if onError is set to `nullify`
  */
-export function scan(obj: any, options?: ScanOptions): void
+export function scan(obj: {[key: string | number]: any }, options?: ParseOptions): any
