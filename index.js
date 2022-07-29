@@ -30,8 +30,8 @@ function parse (text, reviver, options) {
     return obj
   }
 
-  const protoAction = options && options.protoAction || 'error'
-  const constructorAction = options && options.constructorAction || 'error'
+  const protoAction = (options && options.protoAction) || 'error'
+  const constructorAction = (options && options.constructorAction) || 'error'
 
   // options: 'error' (default) / 'remove' / 'ignore'
   if (protoAction === 'ignore' && constructorAction === 'ignore') {
