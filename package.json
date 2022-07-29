@@ -8,7 +8,7 @@
     "benchmark": "cd benchmarks && npm install && npm run all",
     "lint": "standard",
     "test": "nyc npm run test:unit && npm run test:typescript",
-    "test:unit": "tape test/*.test.js",
+    "test:unit": "tape \"test/*.test.js\"",
     "test:typescript": "tsd",
     "test:browser": "airtap test/*.test.js"
   },
