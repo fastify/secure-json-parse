@@ -64,7 +64,7 @@ jobs:
           node-version: lts/*
 
       - name: Install dependencies
-        run: npm i --ignore-scripts
+        run: npm i
 
       - name: Run tests
         run: npm run test:browser
@@ -132,6 +132,5 @@ jobs:
     steps:
       - uses: fastify/github-action-merge-dependabot@v3
         with:
-          exclude: ${{ inputs.auto-merge-exclude }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           target: major
