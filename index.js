@@ -105,8 +105,8 @@ function safeParse (text, reviver) {
   }
 }
 
-module.exports = {
-  parse,
-  scan: filter,
-  safeParse
-}
+module.exports = parse
+module.exports.default = parse
+module.exports.parse = parse
+module.exports.safeParse = safeParse
+module.exports.scan = filter
