@@ -152,7 +152,7 @@ test('parse', t => {
       t.same(Error.stackTraceLimit, 42)
       t.end()
     })
-  
+
     t.end()
   })
 
