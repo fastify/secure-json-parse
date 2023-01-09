@@ -4,7 +4,7 @@ const hasBuffer = typeof Buffer !== 'undefined'
 const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
 
-function parse (text, reviver, options) {
+function _parse (text, reviver, options) {
   // Normalize arguments
   if (options == null) {
     if (reviver !== null && typeof reviver === 'object') {
@@ -97,9 +97,19 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
   return obj
 }
 
+function parse (text, reviver, options) {
+  Error.stackTraceLimit = 0
+  const result = _parse(text, reviver, options)
+  Error.stackTraceLimit = 10
+  return result
+}
+
 function safeParse (text, reviver) {
   try {
-    return parse(text, reviver, { safe: true })
+    Error.stackTraceLimit = 0
+    const result = _parse(text, reviver, { safe: true })
+    Error.stackTraceLimit = 10
+    return result
   } catch (ignoreError) {
     return null
   }
