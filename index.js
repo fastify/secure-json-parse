@@ -99,27 +99,23 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
 
 function parse (text, reviver, options) {
   const stackTraceLimit = Error.stackTraceLimit
+  Error.stackTraceLimit = 0
   try {
-    Error.stackTraceLimit = 0
-    const result = _parse(text, reviver, options)
+    return _parse(text, reviver, options)
+  } finally {
     Error.stackTraceLimit = stackTraceLimit
-    return result
-  } catch (e) {
-    Error.stackTraceLimit = stackTraceLimit
-    throw e
   }
 }
 
 function safeParse (text, reviver) {
   const stackTraceLimit = Error.stackTraceLimit
+  Error.stackTraceLimit = 0
   try {
-    Error.stackTraceLimit = 0
-    const result = _parse(text, reviver, { safe: true })
-    Error.stackTraceLimit = stackTraceLimit
-    return result
-  } catch (ignoredError) {
-    Error.stackTraceLimit = stackTraceLimit
+    return _parse(text, reviver, { safe: true })
+  } catch (_e) {
     return null
+  } finally {
+    Error.stackTraceLimit = stackTraceLimit
   }
 }
 
