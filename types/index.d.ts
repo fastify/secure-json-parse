@@ -53,5 +53,6 @@ declare namespace parse {
   export { parse as default}
 }
 
+declare function parse(text: string | Buffer, options?: parse.ParseOptions): any
 declare function parse(text: string | Buffer, reviver?: parse.Reviver | null, options?: parse.ParseOptions): any
 export = parse
