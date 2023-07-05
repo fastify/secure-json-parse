@@ -47,8 +47,8 @@ const sjson = require('secure-json-parse')
 const goodJson = '{ "a": 5, "b": 6 }'
 const badJson = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "constructor": {"prototype": {"bar": "baz"} } }'
 
-console.log(JSON.parse(goodJson), sjson.parse(goodJson, { protoAction: 'remove', constructorAction: 'remove' }))
-console.log(JSON.parse(badJson), sjson.parse(badJson, { protoAction: 'remove', constructorAction: 'remove' }))
+console.log(JSON.parse(goodJson), sjson.parse(goodJson, undefined, { protoAction: 'remove', constructorAction: 'remove' }))
+console.log(JSON.parse(badJson), sjson.parse(badJson, undefined, { protoAction: 'remove', constructorAction: 'remove' }))
 ```
 
 ## API
