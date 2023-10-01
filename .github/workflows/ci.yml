@@ -24,7 +24,7 @@ jobs:
       contents: read
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -38,7 +38,7 @@ jobs:
       contents: read
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -60,7 +60,7 @@ jobs:
       contents: read
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -85,7 +85,7 @@ jobs:
         node-version: [6, 8, 10, 11, 12, 13, 14, 15, 16, 18, 20]
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -111,7 +111,7 @@ jobs:
       contents: read
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
