@@ -6,12 +6,10 @@ const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s
 
 function _parse (text, reviver, options) {
   // Normalize arguments
-  if (options == null) {
-    if (reviver !== null && typeof reviver === 'object') {
+  if (options == null && reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
     }
-  }
 
   if (hasBuffer && Buffer.isBuffer(text)) {
     text = text.toString()
