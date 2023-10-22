@@ -98,7 +98,7 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
 }
 
 function parse (text, reviver, options) {
-  const stackTraceLimit = Error.stackTraceLimit
+  const { stackTraceLimit } = Error
   Error.stackTraceLimit = 0
   try {
     return _parse(text, reviver, options)
@@ -108,7 +108,7 @@ function parse (text, reviver, options) {
 }
 
 function safeParse (text, reviver) {
-  const stackTraceLimit = Error.stackTraceLimit
+  const { stackTraceLimit } = Error
   Error.stackTraceLimit = 0
   try {
     return _parse(text, reviver, { safe: true })

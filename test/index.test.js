@@ -1,6 +1,6 @@
 'use strict'
 
-const test = require('tape').test
+const { test } = require('tape')
 const j = require('..')
 
 test('parse', t => {
