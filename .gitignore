@@ -148,5 +148,8 @@ yarn.lock
 .vscode
 .idea
 
+#tap files
+.tap/
+
 **/._*
 **/*.pem
