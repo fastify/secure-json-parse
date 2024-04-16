@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/fastify/secure-json-parse#readme",
   "devDependencies": {
+    "@fastify/pre-commit": "^2.1.0",
     "airtap": "^4.0.4",
     "airtap-playwright": "^1.0.1",
     "nyc": "^15.1.0",
