@@ -103,7 +103,7 @@ jobs:
 
       - name: Install dependencies
         run: npm i --ignore-scripts
-        
+
       - name: Run tests
         run: npm run test:unit
 
