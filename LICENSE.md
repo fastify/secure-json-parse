@@ -1,5 +1,5 @@
 Copyright (c) 2019 The Fastify Team
-Copyright (c) 2019, Sideway Inc, and project contributors  
+Copyright (c) 2019, Sideway Inc, and project contributors
 All rights reserved.
 
 The complete list of contributors can be found at:
