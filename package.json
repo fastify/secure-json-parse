@@ -7,7 +7,8 @@
   "types": "types/index.d.ts",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
-    "lint": "standard",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "nyc npm run test:unit && npm run test:typescript",
     "test:unit": "tape \"test/*.test.js\"",
     "test:typescript": "tsd",
@@ -34,9 +35,9 @@
     "@fastify/pre-commit": "^2.1.0",
     "airtap": "^5.0.0",
     "airtap-playwright": "^1.0.1",
+    "neostandard": "^0.11.9",
     "nyc": "^17.0.0",
     "playwright": "^1.43.1",
-    "standard": "^17.1.0",
     "tape": "^5.7.5",
     "tsd": "^0.31.0"
   }
