@@ -39,7 +39,7 @@ declare namespace parse {
    * @param reviver The `JSON.parse()` optional `reviver` argument.
    * @returns The parsed object, or `null` if there was an error or if the JSON contained possibly insecure properties.
    */
-  export function safeParse(text: string | Buffer, reviver?: Reviver | null): any
+  export function safeParse (text: string | Buffer, reviver?: Reviver | null): any
 
   /**
    * Scans a given object for prototype properties.
@@ -48,11 +48,11 @@ declare namespace parse {
    * @param options Optional configuration object.
    * @returns The object, or `null` if onError is set to `nullify`
    */
-  export function scan(obj: { [key: string | number]: any }, options?: ParseOptions): any
+  export function scan (obj: { [key: string | number]: any }, options?: ParseOptions): any
 
-  export { parse as default}
+  export { parse as default }
 }
 
-declare function parse(text: string | Buffer, options?: parse.ParseOptions): any
-declare function parse(text: string | Buffer, reviver?: parse.Reviver | null, options?: parse.ParseOptions): any
+declare function parse (text: string | Buffer, options?: parse.ParseOptions): any
+declare function parse (text: string | Buffer, reviver?: parse.Reviver | null, options?: parse.ParseOptions): any
 export = parse
