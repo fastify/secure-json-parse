@@ -35,6 +35,7 @@
     "@fastify/pre-commit": "^2.1.0",
     "airtap": "^5.0.0",
     "airtap-playwright": "^1.0.1",
+    "eslint": "^9.17.0",
     "neostandard": "^0.12.0",
     "nyc": "^17.0.0",
     "playwright": "^1.43.1",
