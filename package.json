@@ -18,6 +18,26 @@
     "type": "git",
     "url": "git+https://github.com/fastify/secure-json-parse.git"
   },
+  "author": "Eran Hammer <eran@sideway.com>",
+  "contributors": [
+    {
+      "name": "Matteo Collina",
+      "email": "hello@matteocollina.com"
+    },
+    {
+      "name": "Tomas Della Vedova",
+      "url": "http://delved.org"
+    },
+    {
+      "name": "Aras Abbasi",
+      "email": "aras.abbasi@gmail.com"
+    },
+    {
+      "name": "Frazer Smith",
+      "email": "frazer.dev@icloud.com",
+      "url": "https://github.com/fdawgs"
+    }
+  ],
   "keywords": [
     "JSON",
     "parse",
@@ -31,6 +51,16 @@
     "url": "https://github.com/fastify/secure-json-parse/issues"
   },
   "homepage": "https://github.com/fastify/secure-json-parse#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
   "devDependencies": {
     "@fastify/pre-commit": "^2.1.0",
     "airtap": "^5.0.0",
