@@ -17,12 +17,12 @@ suite
   .add('JSON.parse error', () => {
     try {
       JSON.parse(internals.invalid)
-    } catch (ignoreErr) { }
+    } catch { }
   })
   .add('secure-json-parse parse', () => {
     try {
       sjson.parse(internals.invalid)
-    } catch (ignoreErr) { }
+    } catch { }
   })
   .add('secure-json-parse safeParse', () => {
     sjson.safeParse(internals.invalid)
@@ -30,7 +30,7 @@ suite
   .add('reviver', () => {
     try {
       JSON.parse(internals.invalid, internals.reviver)
-    } catch (ignoreErr) { }
+    } catch { }
   })
   .on('cycle', (event) => {
     console.log(String(event.target))
