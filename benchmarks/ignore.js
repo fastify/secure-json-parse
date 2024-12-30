@@ -30,6 +30,6 @@ suite
   })
   .run({ async: true })
 
-internals.reviver = function (key, value) {
+internals.reviver = function (_key, value) {
   return value
 }
