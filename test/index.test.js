@@ -45,7 +45,7 @@ test('parse', t => {
   })
 
   t.test('parses object string (reviver)', t => {
-    const reviver = (key, value) => {
+    const reviver = (_key, value) => {
       return typeof value === 'number' ? value + 1 : value
     }
 
@@ -58,7 +58,7 @@ test('parse', t => {
 
   t.test('protoAction', t => {
     t.test('sanitizes object string (reviver, options)', t => {
-      const reviver = (key, value) => {
+      const reviver = (_key, value) => {
         return typeof value === 'number' ? value + 1 : value
       }
 
@@ -158,7 +158,7 @@ test('parse', t => {
 
   t.test('constructorAction', t => {
     t.test('sanitizes object string (reviver, options)', t => {
-      const reviver = (key, value) => {
+      const reviver = (_key, value) => {
         return typeof value === 'number' ? value + 1 : value
       }
 
