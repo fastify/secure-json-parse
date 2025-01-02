@@ -117,10 +117,10 @@ reviver x 114,197 ops/sec ±0.63% (87 runs sampled)
 Fastest is JSON.parse
 ```
 
-# Acknowledgements
+# Acknowledgments
 This project has been forked from [hapijs/bourne](https://github.com/hapijs/bourne).
-All the credits before the commit [4690682](https://github.com/hapijs/bourne/commit/4690682c6cdaa06590da7b2485d5df91c09da889) goes to the hapijs/bourne project contributors.
+All credit before commit [4690682](https://github.com/hapijs/bourne/commit/4690682c6cdaa06590da7b2485d5df91c09da889) goes to the hapijs/bourne project contributors.
 After, the project will be maintained by the Fastify team.
 
 # License
-Licensed under BSD-3-Clause.
+Licensed under [BSD-3-Clause](./LICENSE).
