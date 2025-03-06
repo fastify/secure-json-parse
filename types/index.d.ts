@@ -37,7 +37,7 @@ declare namespace parse {
    *
    * @param text The JSON text string.
    * @param reviver The `JSON.parse()` optional `reviver` argument.
-   * @returns The parsed object, or `null` if there was an error or if the JSON contained possibly insecure properties.
+   * @returns The parsed object, or `undefined` if there was an error or if the JSON contained possibly insecure properties.
    */
   export function safeParse (text: string | Buffer, reviver?: Reviver | null): any
 
