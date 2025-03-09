@@ -112,7 +112,7 @@ function safeParse (text, reviver) {
   Error.stackTraceLimit = 0
   try {
     return _parse(text, reviver, { safe: true })
-  } catch (_e) {
+  } catch {
     return undefined
   } finally {
     Error.stackTraceLimit = stackTraceLimit
