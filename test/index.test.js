@@ -432,10 +432,10 @@ test('safeParse', t => {
     t.end()
   })
 
-  t.test('returns null on invalid object string', t => {
+  t.test('returns undefined on invalid object string', t => {
     t.strictEqual(
       j.safeParse('{"a": 5, "b": 6'),
-      null
+      undefined
     )
     t.end()
   })

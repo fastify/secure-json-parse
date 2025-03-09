@@ -4,7 +4,6 @@ on:
   push:
     branches:
      - main
-     - master
      - next
      - 'v*'
     paths-ignore:
@@ -85,7 +84,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        node-version: [6, 8, 10, 11, 12, 13, 14, 15, 16, 18, 20]
+        node-version: [20, 22]
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -96,10 +95,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Upgrade npm
-        if: ${{ success() && matrix.node-version == '6' }}
-        run: npm i npm@6.13.4 -g
 
       - name: Install dependencies
         run: npm i --ignore-scripts
