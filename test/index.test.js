@@ -263,13 +263,13 @@ test('parse', t => {
         j.parse('{"constructor": null}', { constructorAction: 'remove' }),
         { constructor: null }
       )
-      
+
       // Test that constructor: null doesn't throw error when using error action
       t.deepEqual(
         j.parse('{"constructor": null}', { constructorAction: 'error' }),
         { constructor: null }
       )
-      
+
       // Test that constructor: null is preserved when using ignore action
       t.deepEqual(
         j.parse('{"constructor": null}', { constructorAction: 'ignore' }),
