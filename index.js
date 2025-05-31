@@ -76,6 +76,8 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
 
       if (constructorAction !== 'ignore' &&
           Object.prototype.hasOwnProperty.call(node, 'constructor') &&
+          node.constructor !== null &&
+          typeof node.constructor === 'object' &&
           Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
         if (safe === true) {
           return null
