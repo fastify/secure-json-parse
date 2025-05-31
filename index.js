@@ -4,19 +4,14 @@ const hasBuffer = typeof Buffer !== 'undefined'
 const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
 
-function parse (text, reviver, options) {
+function _parse (text, reviver, options) {
   // Normalize arguments
   if (options == null) {
     if (reviver !== null && typeof reviver === 'object') {
       options = reviver
       reviver = undefined
-    } else {
-      options = {}
     }
   }
-
-  const protoAction = options.protoAction || 'error'
-  const constructorAction = options.constructorAction || 'error'
 
   if (hasBuffer && Buffer.isBuffer(text)) {
     text = text.toString()
@@ -30,13 +25,16 @@ function parse (text, reviver, options) {
   // Parse normally, allowing exceptions
   const obj = JSON.parse(text, reviver)
 
-  // options: 'error' (default) / 'remove' / 'ignore'
-  if (protoAction === 'ignore' && constructorAction === 'ignore') {
+  // Ignore null and non-objects
+  if (obj === null || typeof obj !== 'object') {
     return obj
   }
 
-  // Ignore null and non-objects
-  if (obj === null || typeof obj !== 'object') {
+  const protoAction = (options && options.protoAction) || 'error'
+  const constructorAction = (options && options.constructorAction) || 'error'
+
+  // options: 'error' (default) / 'remove' / 'ignore'
+  if (protoAction === 'ignore' && constructorAction === 'ignore') {
     return obj
   }
 
@@ -55,12 +53,10 @@ function parse (text, reviver, options) {
   }
 
   // Scan result for proto keys
-  scan(obj, { protoAction, constructorAction })
-
-  return obj
+  return filter(obj, { protoAction, constructorAction, safe: options && options.safe })
 }
 
-function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {}) {
+function filter (obj, { protoAction = 'error', constructorAction = 'error', safe } = {}) {
   let next = [obj]
 
   while (next.length) {
@@ -69,22 +65,23 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
 
     for (const node of nodes) {
       if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
-        if (protoAction === 'error') {
+        if (safe === true) {
+          return null
+        } else if (protoAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
         delete node.__proto__ // eslint-disable-line no-proto
       }
 
-      if (constructorAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, 'constructor')) { // Avoid calling node.hasOwnProperty directly
-        // Check if constructor is safely handled - this prevents TypeError when constructor is null
-        const constructorValue = node.constructor
-        if (constructorValue && typeof constructorValue === 'object' &&
-          Object.prototype.hasOwnProperty.call(constructorValue, 'prototype')) {
-          // Constructor has prototype property - this is the dangerous case
-        }
-
-        if (constructorAction === 'error') {
+      if (constructorAction !== 'ignore' &&
+          Object.prototype.hasOwnProperty.call(node, 'constructor') &&
+          node.constructor !== null &&
+          typeof node.constructor === 'object' &&
+          Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
+        if (safe === true) {
+          return null
+        } else if (constructorAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
 
@@ -94,23 +91,38 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       for (const key in node) {
         const value = node[key]
         if (value && typeof value === 'object') {
-          next.push(node[key])
+          next.push(value)
         }
       }
     }
   }
+  return obj
 }
 
-function safeParse (text, reviver) {
+function parse (text, reviver, options) {
+  const { stackTraceLimit } = Error
+  Error.stackTraceLimit = 0
   try {
-    return parse(text, reviver)
-  } catch (ignoreError) {
-    return null
+    return _parse(text, reviver, options)
+  } finally {
+    Error.stackTraceLimit = stackTraceLimit
   }
 }
 
-module.exports = {
-  parse,
-  scan,
-  safeParse
+function safeParse (text, reviver) {
+  const { stackTraceLimit } = Error
+  Error.stackTraceLimit = 0
+  try {
+    return _parse(text, reviver, { safe: true })
+  } catch {
+    return undefined
+  } finally {
+    Error.stackTraceLimit = stackTraceLimit
+  }
 }
+
+module.exports = parse
+module.exports.default = parse
+module.exports.parse = parse
+module.exports.safeParse = safeParse
+module.exports.scan = filter

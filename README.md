@@ -1,7 +1,8 @@
 # secure-json-parse
 
-![Ci Workflow](https://github.com/fastify/secure-json-parse/workflows/CI%20workflow/badge.svg)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![CI](https://github.com/fastify/secure-json-parse/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fastify/secure-json-parse/actions/workflows/ci.yml)
+[![NPM version](https://img.shields.io/npm/v/secure-json-parse.svg?style=flat)](https://www.npmjs.com/package/secure-json-parse)
+[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
 
 `JSON.parse()` drop-in replacement with prototype poisoning protection.
 
@@ -32,13 +33,13 @@ iterated on and values copied, the `__proto__` property leaks and becomes the ob
 
 ## Install
 ```
-npm install secure-json-parse
+npm i secure-json-parse
 ```
 
 ## Usage
 
 Pass the option object as a second (or third) parameter for configuring the action to take in case of a bad JSON, if nothing is configured, the default is to throw a `SyntaxError`.<br/>
-You can choose which action to perform in case `__proto__` is present, and in case `constructor` is present.
+You can choose which action to perform in case `__proto__` is present, and in case `constructor.prototype` is present.
 
 ```js
 const sjson = require('secure-json-parse')
@@ -46,8 +47,8 @@ const sjson = require('secure-json-parse')
 const goodJson = '{ "a": 5, "b": 6 }'
 const badJson = '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "constructor": {"prototype": {"bar": "baz"} } }'
 
-console.log(JSON.parse(goodJson), sjson.parse(goodJson, { protoAction: 'remove', constructorAction: 'remove' }))
-console.log(JSON.parse(badJson), sjson.parse(badJson, { protoAction: 'remove', constructorAction: 'remove' }))
+console.log(JSON.parse(goodJson), sjson.parse(goodJson, undefined, { protoAction: 'remove', constructorAction: 'remove' }))
+console.log(JSON.parse(badJson), sjson.parse(badJson, undefined, { protoAction: 'remove', constructorAction: 'remove' }))
 ```
 
 ## API
@@ -63,7 +64,7 @@ Parses a given JSON-formatted text into an object where:
         - `'remove'` - deletes any `__proto__` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
     - `constructorAction` - optional string with one of:
-        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
 
@@ -76,7 +77,7 @@ Scans a given object for prototype properties where:
         - `'error'` - throw a `SyntaxError` when a `__proto__` key is found. This is the default value.
         - `'remove'` - deletes any `__proto__` keys from the input `obj`.
     - `constructorAction` - optional string with one of:
-        - `'error'` - throw a `SyntaxError` when a `constructor` key is found. This is the default value.
+        - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the input `obj`.
 
 ## Benchmarks
@@ -116,10 +117,10 @@ reviver x 114,197 ops/sec ±0.63% (87 runs sampled)
 Fastest is JSON.parse
 ```
 
-# Acknowledgements
+## Acknowledgments
 This project has been forked from [hapijs/bourne](https://github.com/hapijs/bourne).
-All the credits before the commit [4690682](https://github.com/hapijs/bourne/commit/4690682c6cdaa06590da7b2485d5df91c09da889) goes to the hapijs/bourne project contributors.
+All credit before commit [4690682](https://github.com/hapijs/bourne/commit/4690682c6cdaa06590da7b2485d5df91c09da889) goes to the hapijs/bourne project contributors.
 After, the project will be maintained by the Fastify team.
 
-# License
-Licensed under BSD-3-Clause.
+## License
+Licensed under [BSD-3-Clause](./LICENSE).

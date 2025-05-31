@@ -11,23 +11,26 @@ const internals = {
 const suite = new Benchmark.Suite()
 
 suite
-  .add('JSON.parse', () => {
+  .add('JSON.parse valid', () => {
     JSON.parse(internals.text)
   })
   .add('JSON.parse error', () => {
     try {
       JSON.parse(internals.invalid)
-    } catch (ignoreErr) { }
+    } catch { }
   })
-  .add('secure-json-parse', () => {
+  .add('secure-json-parse parse', () => {
     try {
-      sjson.parse(internals.text)
-    } catch (ignoreErr) { }
+      sjson.parse(internals.invalid)
+    } catch { }
+  })
+  .add('secure-json-parse safeParse', () => {
+    sjson.safeParse(internals.invalid)
   })
   .add('reviver', () => {
     try {
-      JSON.parse(internals.text, internals.reviver)
-    } catch (ignoreErr) { }
+      JSON.parse(internals.invalid, internals.reviver)
+    } catch { }
   })
   .on('cycle', (event) => {
     console.log(String(event.target))

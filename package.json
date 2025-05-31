@@ -1,17 +1,43 @@
 {
   "name": "secure-json-parse",
-  "version": "2.3.0",
+  "version": "4.0.0",
   "description": "JSON parse with prototype poisoning protection",
   "main": "index.js",
+  "type": "commonjs",
+  "types": "types/index.d.ts",
   "scripts": {
     "benchmark": "cd benchmarks && npm install && npm run all",
-    "test": "standard && nyc tape test.js",
-    "test-in-browsers": "airtap test.js"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "nyc npm run test:unit && npm run test:typescript",
+    "test:unit": "tape \"test/*.test.js\"",
+    "test:typescript": "tsd",
+    "test:browser": "airtap test/*.test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fastify/secure-json-parse.git"
   },
+  "author": "Eran Hammer <eran@sideway.com>",
+  "contributors": [
+    {
+      "name": "Matteo Collina",
+      "email": "hello@matteocollina.com"
+    },
+    {
+      "name": "Tomas Della Vedova",
+      "url": "http://delved.org"
+    },
+    {
+      "name": "Aras Abbasi",
+      "email": "aras.abbasi@gmail.com"
+    },
+    {
+      "name": "Frazer Smith",
+      "email": "frazer.dev@icloud.com",
+      "url": "https://github.com/fdawgs"
+    }
+  ],
   "keywords": [
     "JSON",
     "parse",
@@ -25,12 +51,25 @@
     "url": "https://github.com/fastify/secure-json-parse/issues"
   },
   "homepage": "https://github.com/fastify/secure-json-parse#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
   "devDependencies": {
-    "airtap": "^4.0.1",
+    "@fastify/pre-commit": "^2.1.0",
+    "airtap": "^5.0.0",
     "airtap-playwright": "^1.0.1",
-    "nyc": "^14.1.1",
-    "playwright": "^1.7.1",
-    "standard": "^16.0.0",
-    "tape": "^5.1.1"
+    "eslint": "^9.17.0",
+    "neostandard": "^0.12.0",
+    "nyc": "^17.0.0",
+    "playwright": "^1.43.1",
+    "tape": "^5.7.5",
+    "tsd": "^0.32.0"
   }
 }
