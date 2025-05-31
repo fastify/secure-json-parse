@@ -236,6 +236,14 @@ test('parse', t => {
       t.end()
     })
 
+    t.test('handles constructor null safely', t => {
+      t.deepEqual(
+        j.parse('{"constructor": null}', { constructorAction: 'remove' }),
+        {}
+      )
+      t.end()
+    })
+
     t.end()
   })
 

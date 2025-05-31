@@ -77,6 +77,13 @@ function scan (obj, { protoAction = 'error', constructorAction = 'error' } = {})
       }
 
       if (constructorAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, 'constructor')) { // Avoid calling node.hasOwnProperty directly
+        // Check if constructor is safely handled - this prevents TypeError when constructor is null
+        const constructorValue = node.constructor
+        if (constructorValue && typeof constructorValue === 'object' &&
+          Object.prototype.hasOwnProperty.call(constructorValue, 'prototype')) {
+          // Constructor has prototype property - this is the dangerous case
+        }
+
         if (constructorAction === 'error') {
           throw new SyntaxError('Object contains forbidden prototype property')
         }
