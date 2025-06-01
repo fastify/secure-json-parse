@@ -257,6 +257,27 @@ test('parse', t => {
       t.end()
     })
 
+    t.test('handles constructor null safely', t => {
+      // Test that constructor: null doesn't trigger prototype pollution checks
+      t.deepEqual(
+        j.parse('{"constructor": null}', { constructorAction: 'remove' }),
+        { constructor: null }
+      )
+
+      // Test that constructor: null doesn't throw error when using error action
+      t.deepEqual(
+        j.parse('{"constructor": null}', { constructorAction: 'error' }),
+        { constructor: null }
+      )
+
+      // Test that constructor: null is preserved when using ignore action
+      t.deepEqual(
+        j.parse('{"constructor": null}', { constructorAction: 'ignore' }),
+        { constructor: null }
+      )
+      t.end()
+    })
+
     t.end()
   })
 
