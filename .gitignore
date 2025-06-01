@@ -153,3 +153,9 @@ yarn.lock
 
 **/._*
 **/*.pem
+
+# CLAUDE.md
+CLAUDE.md
+
+# Claude Code directory
+.claude
