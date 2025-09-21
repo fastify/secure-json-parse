@@ -62,7 +62,6 @@
     }
   ],
   "devDependencies": {
-    "@fastify/pre-commit": "^2.1.0",
     "airtap": "^5.0.0",
     "airtap-playwright": "^1.0.1",
     "eslint": "^9.17.0",
