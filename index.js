@@ -82,7 +82,7 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
     next = []
 
     for (const node of nodes) {
-      if (protoAction !== 'ignore' && Object.prototype.hasOwnProperty.call(node, '__proto__')) { // Avoid calling node.hasOwnProperty directly
+      if (protoAction !== 'ignore' && Object.hasOwn(node, '__proto__')) { // Avoid calling node.hasOwn directly
         if (safe === true) {
           return null
         } else if (protoAction === 'error') {
@@ -93,10 +93,10 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
       }
 
       if (constructorAction !== 'ignore' &&
-          Object.prototype.hasOwnProperty.call(node, 'constructor') &&
+          Object.hasOwn(node, 'constructor') &&
           node.constructor !== null &&
           typeof node.constructor === 'object' &&
-          Object.prototype.hasOwnProperty.call(node.constructor, 'prototype')) { // Avoid calling node.hasOwnProperty directly
+          Object.hasOwn(node.constructor, 'prototype')) { // Avoid calling node.hasOwn directly
         if (safe === true) {
           return null
         } else if (constructorAction === 'error') {
