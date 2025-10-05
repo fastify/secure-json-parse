@@ -524,3 +524,126 @@ test('scan handles optional options', t => {
   t.doesNotThrow(() => j.scan({ a: 'b' }))
   t.end()
 })
+
+test('safe option', t => {
+  t.test('parse with safe=true returns null on __proto__', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    t.strictEqual(j.parse(text, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true returns null on constructor', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }'
+    t.strictEqual(j.parse(text, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true returns object when valid', t => {
+    const text = '{ "a": 5, "b": 6 }'
+    t.deepEqual(j.parse(text, { safe: true }), { a: 5, b: 6 })
+    t.end()
+  })
+
+  t.test('parse with safe=true and reviver', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    const reviver = (_key, value) => {
+      return typeof value === 'number' ? value + 1 : value
+    }
+    t.strictEqual(j.parse(text, reviver, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true and protoAction=remove returns null', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    t.strictEqual(j.parse(text, { safe: true, protoAction: 'remove' }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true and constructorAction=remove returns null', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }'
+    t.strictEqual(j.parse(text, { safe: true, constructorAction: 'remove' }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=false throws on __proto__', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    t.throws(() => j.parse(text, { safe: false }), SyntaxError)
+    t.end()
+  })
+
+  t.test('parse with safe=false throws on constructor', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }'
+    t.throws(() => j.parse(text, { safe: false }), SyntaxError)
+    t.end()
+  })
+
+  t.test('scan with safe=true returns null on __proto__', t => {
+    const obj = JSON.parse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }')
+    t.strictEqual(j.scan(obj, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('scan with safe=true returns null on constructor', t => {
+    const obj = JSON.parse('{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }')
+    t.strictEqual(j.scan(obj, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('scan with safe=true returns object when valid', t => {
+    const obj = { a: 5, b: 6 }
+    t.deepEqual(j.scan(obj, { safe: true }), { a: 5, b: 6 })
+    t.end()
+  })
+
+  t.test('scan with safe=false throws on __proto__', t => {
+    const obj = JSON.parse('{ "a": 5, "b": 6, "__proto__": { "x": 7 } }')
+    t.throws(() => j.scan(obj, { safe: false }), SyntaxError)
+    t.end()
+  })
+
+  t.test('scan with safe=false throws on constructor', t => {
+    const obj = JSON.parse('{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }')
+    t.throws(() => j.scan(obj, { safe: false }), SyntaxError)
+    t.end()
+  })
+
+  t.test('parse with safe=true returns null on nested __proto__', t => {
+    const text = '{ "a": 5, "c": { "d": 0, "__proto__": { "y": 8 } } }'
+    t.strictEqual(j.parse(text, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true returns null on nested constructor', t => {
+    const text = '{ "a": 5, "c": { "d": 0, "constructor": {"prototype": {"bar": "baz"}} } }'
+    t.strictEqual(j.parse(text, { safe: true }), null)
+    t.end()
+  })
+
+  t.test('parse with safe=true and protoAction=ignore returns object', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    t.deepEqual(
+      j.parse(text, { safe: true, protoAction: 'ignore' }),
+      JSON.parse(text)
+    )
+    t.end()
+  })
+
+  t.test('parse with safe=true and constructorAction=ignore returns object', t => {
+    const text = '{ "a": 5, "b": 6, "constructor": {"prototype": {"bar": "baz"}} }'
+    t.deepEqual(
+      j.parse(text, { safe: true, constructorAction: 'ignore' }),
+      JSON.parse(text)
+    )
+    t.end()
+  })
+
+  t.test('should reset stackTraceLimit with safe option', t => {
+    const text = '{ "a": 5, "b": 6, "__proto__": { "x": 7 } }'
+    Error.stackTraceLimit = 42
+    t.strictEqual(j.parse(text, { safe: true }), null)
+    t.same(Error.stackTraceLimit, 42)
+    t.end()
+  })
+
+  t.end()
+})

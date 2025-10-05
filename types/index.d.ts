@@ -16,6 +16,8 @@ declare namespace parse {
      * - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
      */
     constructorAction?: 'error' | 'remove' | 'ignore';
+    /** If `true`, returns `null` instead of throwing an error when a security issue is found. */
+    safe?: boolean;
   }
 
   export type ScanOptions = ParseOptions
@@ -33,7 +35,7 @@ declare namespace parse {
   export const parse: Parse
 
   /**
-   * Parses a given JSON-formatted text into an object.
+   * Safely parses a given JSON-formatted text into an object.
    *
    * @param text The JSON text string.
    * @param reviver The `JSON.parse()` optional `reviver` argument.

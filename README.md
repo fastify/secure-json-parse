@@ -67,6 +67,9 @@ Parses a given JSON-formatted text into an object where:
         - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the result object.
         - `'ignore'` - skips all validation (same as calling `JSON.parse()` directly).
+    - `safe` - optional boolean:
+        - `true` - returns `null` instead of throwing when a forbidden prototype property is found.
+        - `false` - default behavior (throws or removes based on `protoAction`/`constructorAction`).
 
 ### `sjson.scan(obj, [options])`
 
@@ -79,6 +82,9 @@ Scans a given object for prototype properties where:
     - `constructorAction` - optional string with one of:
         - `'error'` - throw a `SyntaxError` when a `constructor.prototype` key is found. This is the default value.
         - `'remove'` - deletes any `constructor` keys from the input `obj`.
+    - `safe` - optional boolean:
+        - `true` - returns `null` instead of throwing when a forbidden prototype property is found.
+        - `false` - default behavior (throws or removes based on `protoAction`/`constructorAction`).
 
 ## Benchmarks
 
