@@ -10,6 +10,6 @@
     "all": "node --version && npm run valid && npm run ignore && npm run no_proto && npm run remove && npm run throw"
   },
   "dependencies": {
-    "benchmark": "^2.1.4"
+    "tinybench": "^5.0.1"
   }
 }
