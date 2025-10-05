@@ -91,54 +91,76 @@ Scans a given object for prototype properties where:
 Machine: 2.4 Ghz 14-core Intel Core i7-13650HX
 
 ```
+v22.20.0
+
 > benchmarks@1.0.0 valid
 > node valid.js
 
-JSON.parse x 1,866,229 ops/sec ±1.91% (86 runs sampled)
-JSON.parse proto x 1,237,402 ops/sec ±1.32% (95 runs sampled)
-secure-json-parse parse x 1,693,973 ops/sec ±0.99% (94 runs sampled)
-secure-json-parse parse proto x 1,864,139 ops/sec ±0.86% (95 runs sampled)
-secure-json-parse safeParse x 1,703,452 ops/sec ±0.46% (91 runs sampled)
-secure-json-parse safeParse proto x 1,116,725 ops/sec ±0.62% (94 runs sampled)
-JSON.parse reviver x 295,223 ops/sec ±0.39% (100 runs sampled)
-Fastest is secure-json-parse parse proto
+valid benchmark
+┌─────────┬─────────────────────────────────────┬──────────────────┬──────────────────┬────────────────────────┬────────────────────────┬─────────┐
+│ (index) │ Task name                           │ Latency avg (ns) │ Latency med (ns) │ Throughput avg (ops/s) │ Throughput med (ops/s) │ Samples │
+├─────────┼─────────────────────────────────────┼──────────────────┼──────────────────┼────────────────────────┼────────────────────────┼─────────┤
+│ 0       │ 'JSON.parse'                        │ '610.10 ± 0.39%' │ '600.00 ± 0.00'  │ '1740515 ± 0.02%'      │ '1666667 ± 0'          │ 1639075 │
+│ 1       │ 'JSON.parse proto'                  │ '875.42 ± 0.39%' │ '800.00 ± 0.00'  │ '1210508 ± 0.03%'      │ '1250000 ± 0'          │ 1142308 │
+│ 2       │ 'secure-json-parse parse'           │ '634.34 ± 0.32%' │ '600.00 ± 0.00'  │ '1624445 ± 0.01%'      │ '1666667 ± 0'          │ 1576434 │
+│ 3       │ 'secure-json-parse parse proto'     │ '657.25 ± 0.42%' │ '600.00 ± 0.00'  │ '1666577 ± 0.03%'      │ '1666667 ± 0'          │ 1521499 │
+│ 4       │ 'secure-json-parse safeParse'       │ '646.03 ± 1.68%' │ '600.00 ± 0.00'  │ '1622543 ± 0.02%'      │ '1666667 ± 0'          │ 1547914 │
+│ 5       │ 'secure-json-parse safeParse proto' │ '912.34 ± 0.20%' │ '900.00 ± 0.00'  │ '1122250 ± 0.02%'      │ '1111111 ± 0'          │ 1096080 │
+│ 6       │ 'JSON.parse reviver'                │ '3448.5 ± 0.59%' │ '3200.0 ± 0.00'  │ '300173 ± 0.04%'       │ '312500 ± 0'           │ 289982  │
+└─────────┴─────────────────────────────────────┴──────────────────┴──────────────────┴────────────────────────┴────────────────────────┴─────────┘
 
 > benchmarks@1.0.0 ignore
 > node ignore.js
 
-JSON.parse x 1,227,994 ops/sec ±1.05% (90 runs sampled)
-secure-json-parse parse x 1,184,011 ops/sec ±0.66% (95 runs sampled)
-secure-json-parse safeParse x 1,123,041 ops/sec ±1.12% (92 runs sampled)
-reviver x 196,637 ops/sec ±0.50% (99 runs sampled)
-Fastest is JSON.parse
+ignore benchmark
+┌─────────┬───────────────────────────────┬──────────────────┬───────────────────┬────────────────────────┬────────────────────────┬─────────┐
+│ (index) │ Task name                     │ Latency avg (ns) │ Latency med (ns)  │ Throughput avg (ops/s) │ Throughput med (ops/s) │ Samples │
+├─────────┼───────────────────────────────┼──────────────────┼───────────────────┼────────────────────────┼────────────────────────┼─────────┤
+│ 0       │ 'JSON.parse'                  │ '897.15 ± 0.53%' │ '800.00 ± 0.00'   │ '1201546 ± 0.03%'      │ '1250000 ± 0'          │ 1114647 │
+│ 1       │ 'secure-json-parse parse'     │ '891.22 ± 0.45%' │ '800.00 ± 0.00'   │ '1168492 ± 0.02%'      │ '1250000 ± 0'          │ 1122056 │
+│ 2       │ 'secure-json-parse safeParse' │ '938.74 ± 0.56%' │ '900.00 ± 0.00'   │ '1106881 ± 0.02%'      │ '1111111 ± 0'          │ 1065255 │
+│ 3       │ 'reviver'                     │ '5741.8 ± 0.79%' │ '4900.0 ± 100.00' │ '188823 ± 0.08%'       │ '204082 ± 4252'        │ 174162  │
+└─────────┴───────────────────────────────┴──────────────────┴───────────────────┴────────────────────────┴────────────────────────┴─────────┘
 
 > benchmarks@1.0.0 no_proto
 > node no__proto__.js
 
-JSON.parse x 1,183,590 ops/sec ±0.43% (93 runs sampled)
-secure-json-parse parse x 1,053,759 ops/sec ±0.76% (97 runs sampled)
-secure-json-parse safeParse x 1,066,295 ops/sec ±0.60% (95 runs sampled)
-reviver x 186,683 ops/sec ±0.61% (94 runs sampled)
-Fastest is JSON.parse
+no __proto__ benchmark
+┌─────────┬───────────────────────────────┬──────────────────┬───────────────────┬────────────────────────┬────────────────────────┬─────────┐
+│ (index) │ Task name                     │ Latency avg (ns) │ Latency med (ns)  │ Throughput avg (ops/s) │ Throughput med (ops/s) │ Samples │
+├─────────┼───────────────────────────────┼──────────────────┼───────────────────┼────────────────────────┼────────────────────────┼─────────┤
+│ 0       │ 'JSON.parse'                  │ '930.41 ± 0.56%' │ '800.00 ± 0.00'   │ '1154630 ± 0.03%'      │ '1250000 ± 0'          │ 1074798 │
+│ 1       │ 'secure-json-parse parse'     │ '996.09 ± 0.27%' │ '900.00 ± 0.00'   │ '1039752 ± 0.02%'      │ '1111111 ± 0'          │ 1003921 │
+│ 2       │ 'secure-json-parse safeParse' │ '1050.5 ± 7.38%' │ '900.00 ± 0.00'   │ '1038060 ± 0.02%'      │ '1111111 ± 0'          │ 951942  │
+│ 3       │ 'reviver'                     │ '5424.7 ± 3.23%' │ '5100.0 ± 100.00' │ '192362 ± 0.05%'       │ '196078 ± 3922'        │ 184341  │
+└─────────┴───────────────────────────────┴──────────────────┴───────────────────┴────────────────────────┴────────────────────────┴─────────┘
 
 > benchmarks@1.0.0 remove
 > node remove.js
 
-JSON.parse x 1,229,886 ops/sec ±1.43% (90 runs sampled)
-secure-json-parse parse x 506,756 ops/sec ±0.39% (95 runs sampled)
-secure-json-parse safeParse x 1,136,082 ops/sec ±0.84% (97 runs sampled)
-reviver x 185,631 ops/sec ±1.09% (96 runs sampled)
-Fastest is JSON.parse
+remove benchmark
+┌─────────┬───────────────────────────────┬──────────────────┬───────────────────┬────────────────────────┬────────────────────────┬─────────┐
+│ (index) │ Task name                     │ Latency avg (ns) │ Latency med (ns)  │ Throughput avg (ops/s) │ Throughput med (ops/s) │ Samples │
+├─────────┼───────────────────────────────┼──────────────────┼───────────────────┼────────────────────────┼────────────────────────┼─────────┤
+│ 0       │ 'JSON.parse'                  │ '927.86 ± 0.51%' │ '800.00 ± 0.00'   │ '1161336 ± 0.03%'      │ '1250000 ± 0'          │ 1077745 │
+│ 1       │ 'secure-json-parse parse'     │ '1968.1 ± 0.51%' │ '1900.0 ± 100.00' │ '525418 ± 0.02%'       │ '526316 ± 26316'       │ 508117  │
+│ 2       │ 'secure-json-parse safeParse' │ '930.60 ± 0.19%' │ '900.00 ± 0.00'   │ '1103037 ± 0.02%'      │ '1111111 ± 0'          │ 1074579 │
+│ 3       │ 'reviver'                     │ '5531.4 ± 0.36%' │ '5100.0 ± 100.00' │ '187392 ± 0.06%'       │ '196078 ± 3922'        │ 180786  │
+└─────────┴───────────────────────────────┴──────────────────┴───────────────────┴────────────────────────┴────────────────────────┴─────────┘
 
 > benchmarks@1.0.0 throw
 > node throw.js
 
-JSON.parse valid x 1,252,559 ops/sec ±1.04% (94 runs sampled)
-JSON.parse error x 133,036 ops/sec ±1.35% (73 runs sampled)
-secure-json-parse parse x 305,759 ops/sec ±0.80% (93 runs sampled)
-secure-json-parse safeParse x 351,419 ops/sec ±0.85% (97 runs sampled)
-reviver x 123,542 ops/sec ±0.46% (77 runs sampled)
-Fastest is JSON.parse valid
+throw benchmark
+┌─────────┬───────────────────────────────┬──────────────────┬───────────────────┬────────────────────────┬────────────────────────┬─────────┐
+│ (index) │ Task name                     │ Latency avg (ns) │ Latency med (ns)  │ Throughput avg (ops/s) │ Throughput med (ops/s) │ Samples │
+├─────────┼───────────────────────────────┼──────────────────┼───────────────────┼────────────────────────┼────────────────────────┼─────────┤
+│ 0       │ 'JSON.parse valid'            │ '908.52 ± 0.54%' │ '800.00 ± 0.00'   │ '1178218 ± 0.03%'      │ '1250000 ± 0'          │ 1100690 │
+│ 1       │ 'JSON.parse error'            │ '7993.2 ± 0.54%' │ '7600.0 ± 200.00' │ '128668 ± 0.06%'       │ '131579 ± 3374'        │ 125108  │
+│ 2       │ 'secure-json-parse parse'     │ '3436.4 ± 2.67%' │ '3100.0 ± 100.00' │ '312206 ± 0.05%'       │ '322581 ± 10081'       │ 291001  │
+│ 3       │ 'secure-json-parse safeParse' │ '2800.9 ± 0.33%' │ '2700.0 ± 0.00'   │ '364670 ± 0.03%'       │ '370370 ± 0'           │ 357026  │
+│ 4       │ 'reviver'                     │ '9045.6 ± 1.12%' │ '8300.0 ± 200.00' │ '115581 ± 0.08%'       │ '120482 ± 2975'        │ 110552  │
+└─────────┴───────────────────────────────┴──────────────────┴───────────────────┴────────────────────────┴────────────────────────┴─────────┘
 ```
 
 ## Acknowledgments

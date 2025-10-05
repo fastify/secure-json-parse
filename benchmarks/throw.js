@@ -1,6 +1,6 @@
 'use strict'
 
-const Benchmark = require('benchmark')
+const { Bench } = require('tinybench')
 const sjson = require('..')
 
 const internals = {
@@ -8,9 +8,21 @@ const internals = {
   invalid: '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } } }'
 }
 
-const suite = new Benchmark.Suite()
+internals.reviver = function (key, value) {
+  if (key === '__proto__') {
+    throw new Error('kaboom')
+  }
 
-suite
+  return value
+}
+
+const benchmark = new Bench({
+  name: 'throw benchmark',
+  iterations: 10000,
+  warmupIterations: 100
+})
+
+benchmark
   .add('JSON.parse valid', () => {
     JSON.parse(internals.text)
   })
@@ -32,18 +44,8 @@ suite
       JSON.parse(internals.invalid, internals.reviver)
     } catch { }
   })
-  .on('cycle', (event) => {
-    console.log(String(event.target))
+  .run()
+  .then(() => {
+    console.log(benchmark.name)
+    console.table(benchmark.table())
   })
-  .on('complete', function () {
-    console.log('Fastest is ' + this.filter('fastest').map('name'))
-  })
-  .run({ async: true })
-
-internals.reviver = function (key, value) {
-  if (key === '__proto__') {
-    throw new Error('kaboom')
-  }
-
-  return value
-}

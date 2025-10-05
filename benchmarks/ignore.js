@@ -1,15 +1,23 @@
 'use strict'
 
-const Benchmark = require('benchmark')
+const { Bench } = require('tinybench')
 const sjson = require('..')
 
 const internals = {
   text: '{ "a": 5, "b": 6, "__proto__": { "x": 7 }, "c": { "d": 0, "e": "text", "__proto__": { "y": 8 }, "f": { "g": 2 } } }'
 }
 
-const suite = new Benchmark.Suite()
+internals.reviver = function (_key, value) {
+  return value
+}
 
-suite
+const benchmark = new Bench({
+  name: 'ignore benchmark',
+  iterations: 10000,
+  warmupIterations: 100
+})
+
+benchmark
   .add('JSON.parse', () => {
     JSON.parse(internals.text)
   })
@@ -22,14 +30,8 @@ suite
   .add('reviver', () => {
     JSON.parse(internals.text, internals.reviver)
   })
-  .on('cycle', (event) => {
-    console.log(String(event.target))
+  .run()
+  .then(() => {
+    console.log(benchmark.name)
+    console.table(benchmark.table())
   })
-  .on('complete', function () {
-    console.log('Fastest is ' + this.filter('fastest').map('name'))
-  })
-  .run({ async: true })
-
-internals.reviver = function (_key, value) {
-  return value
-}
