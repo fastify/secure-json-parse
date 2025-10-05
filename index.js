@@ -4,6 +4,16 @@ const hasBuffer = typeof Buffer !== 'undefined'
 const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/
 
+/**
+ * @description Internal parse function that parses JSON text with security checks.
+ * @private
+ * @param {string|Buffer} text - The JSON text string or Buffer to parse.
+ * @param {Function} [reviver] - The JSON.parse() optional reviver argument.
+ * @param {import('./types').ParseOptions} [options] - Optional configuration object.
+ * @returns {*} The parsed object.
+ * @throws {SyntaxError} If a forbidden prototype property is found and `options.protoAction` or
+ * `options.constructorAction` is `'error'`.
+ */
 function _parse (text, reviver, options) {
   // Normalize arguments
   if (options == null) {
@@ -56,6 +66,14 @@ function _parse (text, reviver, options) {
   return filter(obj, { protoAction, constructorAction, safe: options && options.safe })
 }
 
+/**
+ * @description Scans and filters an object for forbidden prototype properties.
+ * @param {Object} obj - The object being scanned.
+ * @param {import('./types').ParseOptions} [options] - Optional configuration object.
+ * @returns {Object|null} The filtered object, or `null` if safe mode is enabled and issues are found.
+ * @throws {SyntaxError} If a forbidden prototype property is found and `options.protoAction` or
+ * `options.constructorAction` is `'error'`.
+ */
 function filter (obj, { protoAction = 'error', constructorAction = 'error', safe } = {}) {
   let next = [obj]
 
@@ -99,6 +117,15 @@ function filter (obj, { protoAction = 'error', constructorAction = 'error', safe
   return obj
 }
 
+/**
+ * @description Parses a given JSON-formatted text into an object.
+ * @param {string|Buffer} text - The JSON text string or Buffer to parse.
+ * @param {Function} [reviver] - The `JSON.parse()` optional reviver argument, or options object.
+ * @param {import('./types').ParseOptions} [options] - Optional configuration object.
+ * @returns {*} The parsed object.
+ * @throws {SyntaxError} If the JSON text is malformed or contains forbidden prototype properties
+ * when `options.protoAction` or `options.constructorAction` is `'error'`.
+ */
 function parse (text, reviver, options) {
   const { stackTraceLimit } = Error
   Error.stackTraceLimit = 0
@@ -109,6 +136,12 @@ function parse (text, reviver, options) {
   }
 }
 
+/**
+ * @description Safely parses a given JSON-formatted text into an object.
+ * @param {string|Buffer} text - The JSON text string or Buffer to parse.
+ * @param {Function} [reviver] - The `JSON.parse()` optional reviver argument.
+ * @returns {*|null|undefined} The parsed object, `null` if security issues found, or `undefined` on parse error.
+ */
 function safeParse (text, reviver) {
   const { stackTraceLimit } = Error
   Error.stackTraceLimit = 0
