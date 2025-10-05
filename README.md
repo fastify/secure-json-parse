@@ -88,39 +88,54 @@ Scans a given object for prototype properties where:
 
 ## Benchmarks
 
-Machine: 2,7 GHz Quad-Core Intel Core i7
+Machine: 2.4 GHz 14-core Intel Core i7-13670HX
 
 ```
-v14.8.0
+v22.20.0
+
+> node valid.js
+
+JSON.parse x 1,802,844 ops/sec ±1.79% (88 runs sampled)
+JSON.parse proto x 1,219,302 ops/sec ±2.10% (92 runs sampled)
+secure-json-parse parse x 1,657,400 ops/sec ±1.65% (94 runs sampled)
+secure-json-parse parse proto x 1,807,648 ops/sec ±2.41% (90 runs sampled)
+secure-json-parse safeParse x 1,652,255 ops/sec ±1.50% (93 runs sampled)
+secure-json-parse safeParse proto x 1,103,083 ops/sec ±1.73% (93 runs sampled)
+JSON.parse reviver x 287,161 ops/sec ±2.37% (91 runs sampled)
+Fastest is secure-json-parse parse proto
 
 > node ignore.js
 
-JSON.parse x 679,376 ops/sec ±1.15% (84 runs sampled)
-secure-json-parse x 649,605 ops/sec ±0.58% (87 runs sampled)
-reviver x 244,414 ops/sec ±1.05% (88 runs sampled)
+JSON.parse x 1,210,169 ops/sec ±1.44% (92 runs sampled)
+secure-json-parse parse x 1,158,560 ops/sec ±1.14% (95 runs sampled)
+secure-json-parse safeParse x 1,124,013 ops/sec ±0.67% (98 runs sampled)
+reviver x 196,308 ops/sec ±0.57% (92 runs sampled)
 Fastest is JSON.parse
 
 > node no__proto__.js
 
-JSON.parse x 652,190 ops/sec ±0.67% (86 runs sampled)
-secure-json-parse x 589,785 ops/sec ±1.01% (88 runs sampled)
-reviver x 218,075 ops/sec ±1.58% (87 runs sampled)
+JSON.parse x 1,159,929 ops/sec ±1.19% (88 runs sampled)
+secure-json-parse parse x 1,057,914 ops/sec ±0.55% (96 runs sampled)
+secure-json-parse safeParse x 1,049,393 ops/sec ±1.37% (95 runs sampled)
+reviver x 185,783 ops/sec ±0.72% (94 runs sampled)
 Fastest is JSON.parse
 
 > node remove.js
 
-JSON.parse x 683,527 ops/sec ±0.62% (88 runs sampled)
-secure-json-parse x 316,926 ops/sec ±0.63% (87 runs sampled)
-reviver x 214,167 ops/sec ±0.63% (86 runs sampled)
+JSON.parse x 1,247,924 ops/sec ±0.94% (94 runs sampled)
+secure-json-parse parse x 487,633 ops/sec ±1.62% (91 runs sampled)
+secure-json-parse safeParse x 1,124,136 ops/sec ±0.85% (97 runs sampled)
+reviver x 183,020 ops/sec ±1.41% (95 runs sampled)
 Fastest is JSON.parse
 
 > node throw.js
 
-JSON.parse x 682,548 ops/sec ±0.60% (88 runs sampled)
-JSON.parse error x 170,716 ops/sec ±0.93% (87 runs sampled)
-secure-json-parse x 104,483 ops/sec ±0.62% (87 runs sampled)
-reviver x 114,197 ops/sec ±0.63% (87 runs sampled)
-Fastest is JSON.parse
+JSON.parse valid x 1,234,770 ops/sec ±0.64% (90 runs sampled)
+JSON.parse error x 126,202 ops/sec ±2.22% (82 runs sampled)
+secure-json-parse parse x 292,250 ops/sec ±1.74% (94 runs sampled)
+secure-json-parse safeParse x 331,809 ops/sec ±2.72% (89 runs sampled)
+reviver x 119,842 ops/sec ±1.24% (79 runs sampled)
+Fastest is JSON.parse valid
 ```
 
 ## Acknowledgments
