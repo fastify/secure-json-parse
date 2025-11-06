@@ -50,7 +50,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           check-latest: true
           node-version: lts/*
@@ -73,7 +73,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           check-latest: true
           node-version: lts/*
@@ -102,7 +102,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           check-latest: true
           node-version: ${{ matrix.node-version }}
@@ -125,7 +125,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           check-latest: true
           node-version: lts/*
