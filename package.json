@@ -64,7 +64,7 @@
   "devDependencies": {
     "airtap": "^5.0.0",
     "airtap-playwright": "^1.0.1",
-    "eslint": "^9.17.0",
+    "eslint": "^10.1.0",
     "neostandard": "^0.13.0",
     "nyc": "^18.0.0",
     "playwright": "^1.43.1",
