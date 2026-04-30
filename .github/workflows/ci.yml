@@ -23,43 +23,14 @@ permissions:
   contents: read
 
 jobs:
-  dependency-review:
-    name: Dependency Review
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+  quality-check:
+    uses: fastify/workflows/.github/workflows/nested-quality.yml@v6
     permissions:
       contents: read
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v6
-        with:
-          persist-credentials: false
-
-      - name: Dependency review
-        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
-
-  lint:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v6
-        with:
-          persist-credentials: false
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          check-latest: true
-          node-version: lts/*
-
-      - name: Install dependencies
-        run: npm i --ignore-scripts
-
-      - name: Lint code
-        run: npm run lint
+    secrets: inherit
+    with:
+      license-check: true
+      lint: true
 
   browsers:
     name: Test Browsers
@@ -142,7 +113,7 @@ jobs:
         github.event_name == 'pull_request' &&
         github.event.pull_request.head.repo.full_name == github.repository &&
         github.event.pull_request.user.login == 'dependabot[bot]'
-    needs: [browsers, lint, test, typescript]
+    needs: [browsers, quality-check, test, typescript]
     permissions:
       pull-requests: write
       contents: write
