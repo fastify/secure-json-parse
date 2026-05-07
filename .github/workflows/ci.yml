@@ -104,7 +104,7 @@ jobs:
       - name: Install dependencies
         run: npm i --ignore-scripts
 
-      - name: tsd
+      - name: tstyche
         run: npm run test:typescript
 
   automerge:
