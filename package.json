@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix",
     "test": "nyc npm run test:unit && npm run test:typescript",
     "test:unit": "tape \"test/*.test.js\"",
-    "test:typescript": "tsd",
+    "test:typescript": "tstyche",
     "test:browser": "airtap test/*.test.js"
   },
   "repository": {
@@ -69,6 +69,6 @@
     "nyc": "^18.0.0",
     "playwright": "^1.43.1",
     "tape": "^5.7.5",
-    "tsd": "^0.33.0"
+    "tstyche": "^7.1.0"
   }
 }
