@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { expect } from 'tstyche'
 import sjson from '..'
 
