@@ -12,7 +12,7 @@
     "test": "nyc npm run test:unit && npm run test:typescript",
     "test:unit": "node --test test/*.test.js",
     "test:typescript": "tstyche",
-    "test:browser": "node --test test/*.test.js"
+    "test:browser": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -66,7 +66,7 @@
     "eslint": "^9.17.0",
     "neostandard": "^0.13.0",
     "nyc": "^18.0.0",
-    "playwright": "^1.43.1",
+    "playwright": "^1.60.0",
     "tstyche": "^7.1.0"
   }
 }
