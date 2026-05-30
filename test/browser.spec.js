@@ -17,7 +17,6 @@ test('should run safely in the browser without Buffer crashing', async ({ page }
       throw new Error('Buffer is leaking inside the browser environment!')
     }
 
-    // eslint-disable-next-line no-proto
     const res = parse('{"a":1,"__proto__":{"b":2}}', null, { protoAction: 'remove' })
 
     // eslint-disable-next-line no-proto
