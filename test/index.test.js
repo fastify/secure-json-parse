@@ -453,11 +453,13 @@ test('safeParse', t => {
     t.end()
   })
 
-  t.test('returns undefined on invalid object string', t => {
+  t.test('returns undefined on invalid object string and resets stackTraceLimit', t => {
+    Error.stackTraceLimit = 42
     t.strictEqual(
       j.safeParse('{"a": 5, "b": 6'),
       undefined
     )
+    t.strictEqual(Error.stackTraceLimit, 42)
     t.end()
   })
 

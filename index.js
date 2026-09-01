@@ -145,13 +145,15 @@ function parse (text, reviver, options) {
 function safeParse (text, reviver) {
   const { stackTraceLimit } = Error
   Error.stackTraceLimit = 0
+  let result
   try {
-    return _parse(text, reviver, { safe: true })
+    result = _parse(text, reviver, { safe: true })
   } catch {
-    return undefined
+    result = undefined
   } finally {
     Error.stackTraceLimit = stackTraceLimit
   }
+  return result
 }
 
 module.exports = parse
